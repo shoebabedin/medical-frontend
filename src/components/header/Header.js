@@ -4,7 +4,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Header = () => {
-  const router = useNavigate();
+  const navigate = useNavigate();
   const users = useSelector((state) => state.login.userLogin);
   
  

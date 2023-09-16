@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 const SideNav = () => {
-  const [role, setRole] = useState("hospital");
+  const users = useSelector((state) => state.login.userLogin);
+  const [role, setRole] = useState(users.user.role);
   return (
     <>
       <ul className="side_nav d-none d-lg-flex">

@@ -29,6 +29,7 @@ import SendReport from "./pages/SendReport";
 import Signup from "./pages/Signup";
 
 function App() {
+  
   return (
     <>
       <BrowserRouter>

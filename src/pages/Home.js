@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <>
       <div className="dashboard-result">
-        {users.user.role === "admin" && (
+        {users ? users.user.role === "admin" && (
           <>
             <div className={`dashboard-items`}>
               <h4>Number of Sent Reports</h4>
@@ -33,8 +33,8 @@ const Home = () => {
               <p>2115</p>
             </div>
           </>
-        )}
-        {users.user.role === "hospital" && (
+        ): ""}
+        {users ? users.user.role === "hospital" && (
           <>
             <div className={`dashboard-items`}>
               <h4>Number of Sent Reports</h4>
@@ -49,8 +49,8 @@ const Home = () => {
               <p>200</p>
             </div>
           </>
-        )}
-        {users.user.role === "doctor" && (
+        ) : ""}
+        {users ? users.user.role === "doctor" && (
           <>
             <div className={`dashboard-items`}>
               <h4>Number of Received Reports</h4>
@@ -65,7 +65,7 @@ const Home = () => {
               <p>2115</p>
             </div>
           </>
-        )}
+        ) : ""}
       </div>
     </>
   );
