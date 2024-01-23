@@ -40,8 +40,12 @@ const Signup = () => {
     initialValues: initialValues,
     validationSchema: signup,
     onSubmit: async () => {
-      registration();
-      console.log(registration());
+      try {
+        await registration(); // Wait for the registration function to complete
+        // Additional logic after successful registration if needed
+      } catch (error) {
+        console.error(error);
+      }
     }
   });
   return (

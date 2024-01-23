@@ -416,6 +416,11 @@ td {
   background-size: 20px 20px;
   /* background-size: 24px 25px; */
   background-color: #fff;
+  appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  -webkit-appearance: none;
 }
 .dashboard .data-table-filter label {
   font-weight: 700;

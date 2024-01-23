@@ -1,7 +1,72 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Moment from "react-moment";
+import { FcApprove, FcDisapprove } from "react-icons/fc";
 
 const NewUserRequest = () => {
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const [allUserRequest, setAllUserRequest] = useState([]);
+  const [filters, setFilters] = useState({
+    name: "",
+    date: "",
+    userType: "all",
+  });
+
+
+  const rejectRequest = async (id) => {
+    try {
+     await axios.post(`${apiKey}/user/reject-users`, { id: id });
+    } catch (error) {
+      console.error('Error while rejecting request:', error);
+      // Handle the error appropriately
+    }
+  };
+  
+  const approveRequest = async (id) => {
+    console.log(id);
+    try {
+      await axios.post(`${apiKey}/user/approve-users`, { id: id });
+    } catch (error) {
+      console.error('Error while approving request:', error);
+      // Handle the error appropriately
+    }
+  };
+  
+  useEffect(() => {
+    const getAllPendingRequest = async () => {
+      try {
+        const allDoctors = await axios.get(`${apiKey}/user/all-pending-users`);
+        setAllUserRequest(allDoctors.data);
+      } catch (error) {
+        console.error('Error while fetching pending requests:', error);
+      }
+    };
+  
+    getAllPendingRequest();
+  }, []); 
+  
+
+  const filteredUserRequest = allUserRequest.filter((user) => {
+    const nameMatch = user.name
+      .toLowerCase()
+      .includes(filters.name.toLowerCase());
+    const dateMatch =
+      !filters.date ||
+      new Date(user.createdAt).toISOString().split("T")[0] === filters.date;
+    const userTypeMatch =
+      filters.userType === "all" || user.role === filters.userType;
+
+    return nameMatch && dateMatch && userTypeMatch;
+  });
+
+  console.log(filteredUserRequest);
+
+  const handleFilterChange = (filter, value) => {
+    setFilters({
+      ...filters,
+      [filter]: value,
+    });
+  };
   return (
     <>
       <div className="add-new-report">
@@ -19,6 +84,9 @@ const NewUserRequest = () => {
                       id="by_name"
                       type="text"
                       className="form-control search"
+                      onChange={(e) =>
+                        handleFilterChange("name", e.target.value)
+                      }
                     />
                   </div>
                 </div>
@@ -34,6 +102,9 @@ const NewUserRequest = () => {
                       type="date"
                       className="form-control date"
                       id="by_date"
+                      onChange={(e) =>
+                        handleFilterChange("date", e.target.value)
+                      }
                     />
                   </div>
                 </div>
@@ -48,10 +119,13 @@ const NewUserRequest = () => {
                     <select
                       id="by_user_type"
                       className="form-select custom_input"
+                      onChange={(e) =>
+                        handleFilterChange("userType", e.target.value)
+                      }
                     >
                       <option value="all">Select One</option>
-                      <option value="Hospital">Hospital</option>
-                      <option value="Doctor">Doctor</option>
+                      <option value="hospital">Hospital</option>
+                      <option value="doctor">Doctor</option>
                     </select>
                   </div>
                 </div>
@@ -59,10 +133,7 @@ const NewUserRequest = () => {
             </div>
           </div>
 
-          <table
-            id="example"
-            className="cell-border table-responsive w-100"
-          >
+          <table id="example" className="cell-border table-responsive w-100">
             <thead className="">
               <tr>
                 <th className="">
@@ -89,39 +160,42 @@ const NewUserRequest = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <span>01</span>
-                </td>
-                <td>
-                  <span>shoeb</span>
-                </td>
-                <td>
-                  <span>shoebabedin@gmail.com </span>
-                </td>
-                <td>
-                  <span>+880101010101 </span>
-                </td>
-                <td className="text-capitalize">
-                  <span>Hospital</span>
-                </td>
-                <td>
-                  <span>01/02/23</span>
-                </td>
-
-                <td>
-                  <Link to="#">
-                    <img src={require("./../assets/images/checked.png")} className="img-fluid" alt="" />
-                  </Link>
-                  <Link to="#">
-                    <img src={require("./../assets/images/rejected.png")} className="img-fluid" alt="" />
-                  </Link>
-                  <Link to="#">
-                    <img src={require("./../assets/images/eye.png")} className="img-fluid" alt="" />
-                  </Link>
-                  
-                </td>
-              </tr>
+              {filteredUserRequest.map((data) => (
+                <tr key={data._id} className="text-center">
+                  <td className="">
+                    <span className="">{data._id}</span>
+                  </td>
+                  <td className="">
+                    <span className="">{data.name}</span>
+                  </td>
+                  <td className="">
+                    <span className="">{data.email}</span>
+                  </td>
+                  <td className="">
+                    <span className="">
+                      {data.phone ? data.phone : "Empty"}
+                    </span>
+                  </td>
+                  <td className="">
+                    <span className="">{data.role}</span>
+                  </td>
+                  <td className="">
+                    <span className="">
+                      <Moment fromNow>{data.createdAt}</Moment>
+                    </span>
+                  </td>
+                  <td className="">
+                    <span className="d-flex gap-2">
+                      <button onClick={()=> approveRequest(data._id)} className="border-0 shadow-none">
+                        <FcApprove />
+                      </button>
+                      <button className="border-0 shadow-none" onClick={() => rejectRequest(data._id)}>
+                        <FcDisapprove />
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

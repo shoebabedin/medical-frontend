@@ -11,24 +11,25 @@ const SendReport = () => {
             <div className="row">
               <div className="col-lg-4">
                 <div className="mb-5 row">
-                  <label for="h-name" className="col-sm-4 col-form-label">
+                  <label for="h-name" className="col-sm-12 col-form-label">
                     Search Report
                   </label>
-                  <div className="col-sm-8">
+                  <div className="col-sm-12">
                     <input
                       type="password"
                       className="form-control search"
                       id="h-name"
+                      placeholder="Search Report"
                     />
                   </div>
                 </div>
               </div>
               <div className="col-lg-4">
                 <div className="mb-5 row">
-                  <label for="h-name" className="col-sm-4 col-form-label">
+                  <label for="h-name" className="col-sm-12 col-form-label">
                     By Doctor
                   </label>
-                  <div className="col-sm-8">
+                  <div className="col-sm-12">
                     <select
                       id="disabledSelect"
                       className="form-select custom_input"
@@ -42,10 +43,10 @@ const SendReport = () => {
               </div>
               <div className="col-lg-4">
                 <div className="mb-5 row">
-                  <label for="h-name" className="col-sm-4 col-form-label">
+                  <label for="h-name" className="col-sm-12 col-form-label">
                     By Date
                   </label>
-                  <div className="col-sm-8 position-relative">
+                  <div className="col-sm-12 position-relative">
                     <input
                       type="date"
                       className="form-control date"

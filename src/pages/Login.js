@@ -2,31 +2,30 @@ import axios from "axios";
 import { useFormik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Router, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LoginUser } from "../feature/users/authSlice";
 import { login } from "../validation";
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const apiKey = process.env.REACT_APP_API_KEY;
 
   const initialValues = {
     email: "",
-    password: ""
+    password: "",
   };
   const signin = async () => {
     try {
       let { data } = await axios.post(`${apiKey}/auth/login`, {
         email: formik.values.email,
-        password: formik.values.password
+        password: formik.values.password,
       });
-      console.log(data);
-      toast(data.error);
-      toast(data.success);
+      // console.log(data);
+      toast.error(data.error);
+      toast.success(data.success);
       if (data.success) {
-        window.location.replace("/");
+        window.location.replace('/');
         localStorage.setItem("User", JSON.stringify(data));
         dispatch(LoginUser(data));
       }
@@ -40,8 +39,11 @@ const Login = () => {
     validationSchema: login,
     onSubmit: async (data) => {
       signin();
-    }
+    },
   });
+
+
+  
   return (
     <>
       <section className="auth">

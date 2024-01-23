@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Layout from "./components/layout/Layout";
 import AddReport from "./pages/AddReport";
@@ -27,12 +27,16 @@ import ReportFormatEdit from "./pages/ReportFormatEdit";
 import ReportFormatView from "./pages/ReportFormatView";
 import SendReport from "./pages/SendReport";
 import Signup from "./pages/Signup";
+import { ToastContainer, toast } from "react-toastify";
+import { useDebounce, useNetworkState } from "@uidotdev/usehooks";
+import { useEffect } from "react";
+import { debounce } from "lodash";
 
 function App() {
-  
   return (
     <>
       <BrowserRouter>
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />

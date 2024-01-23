@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const SideNav = () => {
   const users = useSelector((state) => state.login.userLogin);
-  const [role, setRole] = useState(users.user.role);
+  const [role, setRole] = useState(users?.user.role);
   return (
     <>
       <ul className="side_nav d-none d-lg-flex">

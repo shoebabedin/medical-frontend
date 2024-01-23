@@ -19,7 +19,6 @@ const DoctorList = () => {
                       id="by_name"
                       type="text"
                       className="form-control search"
-                      id="h-name"
                     />
                   </div>
                 </div>
