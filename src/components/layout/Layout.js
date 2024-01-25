@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import Header from "../header/Header";
-import SideNav from "../header/SideNav";
-import { useSelector } from "react-redux";
 import { useNetworkState } from "@uidotdev/usehooks";
 import { debounce } from "lodash";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Header from "../header/Header";
+import SideNav from "../header/SideNav";
 
 const Layout = () => {
   const navigate = useNavigate();

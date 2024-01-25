@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Moment from "react-moment";
 import { FcApprove, FcDisapprove } from "react-icons/fc";
+import Moment from "react-moment";
 
 const NewUserRequest = () => {
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -13,22 +13,20 @@ const NewUserRequest = () => {
   });
 
 
-  const rejectRequest = async (id) => {
+  const rejectRequest = (id) => {
     try {
-     await axios.post(`${apiKey}/user/reject-users`, { id: id });
+     axios.post(`${apiKey}/user/reject-users`, { id: id });
     } catch (error) {
       console.error('Error while rejecting request:', error);
       // Handle the error appropriately
     }
   };
   
-  const approveRequest = async (id) => {
-    console.log(id);
+  const approveRequest = (id) => {
     try {
-      await axios.post(`${apiKey}/user/approve-users`, { id: id });
+      axios.post(`${apiKey}/user/approve-users`, { id: id });
     } catch (error) {
       console.error('Error while approving request:', error);
-      // Handle the error appropriately
     }
   };
   
@@ -43,7 +41,7 @@ const NewUserRequest = () => {
     };
   
     getAllPendingRequest();
-  }, []); 
+  }, [rejectRequest, approveRequest]); 
   
 
   const filteredUserRequest = allUserRequest.filter((user) => {
@@ -59,7 +57,6 @@ const NewUserRequest = () => {
     return nameMatch && dateMatch && userTypeMatch;
   });
 
-  console.log(filteredUserRequest);
 
   const handleFilterChange = (filter, value) => {
     setFilters({

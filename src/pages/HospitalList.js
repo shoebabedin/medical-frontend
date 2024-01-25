@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaPlusCircle, FaRegEdit } from "react-icons/fa";
-import Moment from "react-moment";
 import { GrView } from "react-icons/gr";
+import Moment from "react-moment";
 import { Link } from "react-router-dom";
 
 const HospitalList = () => {
@@ -74,7 +74,7 @@ const HospitalList = () => {
               <div className="col-12 col-lg-4">
                 <div className="mb-3 mb-md-2 mb-lg-5 row">
                   <label for="h-name" className="col-sm-12 col-form-label">
-                    By Doctor
+                    By Status
                   </label>
                   <div className="col-sm-12">
                     <select

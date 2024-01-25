@@ -1,9 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Layout from "./components/layout/Layout";
+import AddNewDoctor from "./pages/AddNewDoctor";
 import AddReport from "./pages/AddReport";
 import AllReport from "./pages/AllReport";
 import CompleteReport from "./pages/CompleteReport";
@@ -11,6 +13,7 @@ import CompleteReportEdit from "./pages/CompleteReportEdit";
 import CompleteReportView from "./pages/CompleteReportView";
 import DoctorList from "./pages/DoctorList";
 import EditAccess from "./pages/EditAccess";
+import EditDoctor from "./pages/EditDoctor";
 import EditReport from "./pages/EditReport";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
@@ -27,10 +30,6 @@ import ReportFormatEdit from "./pages/ReportFormatEdit";
 import ReportFormatView from "./pages/ReportFormatView";
 import SendReport from "./pages/SendReport";
 import Signup from "./pages/Signup";
-import { ToastContainer, toast } from "react-toastify";
-import { useDebounce, useNetworkState } from "@uidotdev/usehooks";
-import { useEffect } from "react";
-import { debounce } from "lodash";
 
 function App() {
   return (
@@ -59,6 +58,8 @@ function App() {
             <Route path="received-report" element={<ReceivedReport />} />
             <Route path="new-report-prepare" element={<NewReportPrepare />} />
             <Route path="new-report-entry" element={<NewReportEntry />} />
+            <Route path="edit-doctor/:id" element={<EditDoctor />} />
+            <Route path="add-new-doctor" element={<AddNewDoctor />} />
             <Route path="*" element={<NoPage />} />
           </Route>
           <Route path="complete-report-edit" element={<CompleteReportEdit />} />
