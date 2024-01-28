@@ -8,14 +8,11 @@ import { Link } from "react-router-dom";
 const DoctorList = () => {
   const apiKey = process.env.REACT_APP_API_KEY;
   const [allUser, setAllUser] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState({
     name: "",
     date: "",
-    userType: "all"
+    userType: "all",
   });
-
-  
 
   useEffect(() => {
     const getAllData = async () => {
@@ -46,11 +43,9 @@ const DoctorList = () => {
   const handleFilterChange = (filter, value) => {
     setFilters({
       ...filters,
-      [filter]: value
+      [filter]: value,
     });
   };
-
-
 
   return (
     <>
@@ -82,9 +77,13 @@ const DoctorList = () => {
                     By Status
                   </label>
                   <div className="col-12">
-                    <select id="by_status" className="form-select custom_input" onChange={(e) =>
+                    <select
+                      id="by_status"
+                      className="form-select custom_input"
+                      onChange={(e) =>
                         handleFilterChange("userType", e.target.value)
-                      }>
+                      }
+                    >
                       <option value="all">Select One</option>
                       <option value="active">Active</option>
                       <option value="inactive">Inactive</option>
@@ -102,7 +101,17 @@ const DoctorList = () => {
                   </label>
 
                   <div className="col-12 d-flex justify-content-end img-ctrl-btn align-items-center mb-3">
-                    <Link to={'/add-new-doctor'} className="btn plus add-more-btn">
+                    {/* <button
+                      onClick={() => setModalShow(true)}
+                      className="btn plus add-more-btn"
+                    >
+                      <FaPlusCircle />
+                      <span className="text-white"> ADD NEW </span>
+                    </button> */}
+                    <Link
+                      to={"/add-new-doctor"}
+                      className="btn plus add-more-btn"
+                    >
                       <FaPlusCircle />
                       <span className="text-white"> ADD NEW </span>
                     </Link>
@@ -178,7 +187,6 @@ const DoctorList = () => {
           </table>
         </div>
       </div>
-      
     </>
   );
 };

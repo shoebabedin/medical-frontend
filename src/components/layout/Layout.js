@@ -1,35 +1,20 @@
-import { useNetworkState } from "@uidotdev/usehooks";
-import { debounce } from "lodash";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import Header from "../header/Header";
 import SideNav from "../header/SideNav";
 
 const Layout = () => {
   const navigate = useNavigate();
   const users = useSelector((state) => state.login.userLogin);
-  const network = useNetworkState();
 
   useEffect(() => {
     if (!users) {
       navigate("/login");
     }
-  }, [users, navigate]);
+  }, []);
 
 
-  const showToast = debounce((isOnline) => {
-    if (isOnline) {
-      toast.success("You are now online");
-    } else {
-      toast.error("You are now offline");
-    }
-  }, 300); // Adjust the debounce delay as needed
-
-  useEffect(() => {
-    showToast(network.online);
-  }, [network.online]);
   
   return (
     <>
