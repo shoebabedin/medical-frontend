@@ -31,6 +31,7 @@ import ReportFormatView from "./pages/ReportFormatView";
 import SendReport from "./pages/SendReport";
 import Signup from "./pages/Signup";
 import ViewDoctor from "./pages/ViewDoctor";
+import AddNewHospital from "./pages/AddNewHospital";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
             <Route path="edit-doctor/:id" element={<EditDoctor />} />
             <Route path="view-doctor/:id" element={<ViewDoctor />} />
             <Route path="add-new-doctor" element={<AddNewDoctor />} />
+            <Route path="add-new-hospital" element={<AddNewHospital />} />
             <Route path="*" element={<NoPage />} />
           </Route>
           <Route path="complete-report-edit" element={<CompleteReportEdit />} />

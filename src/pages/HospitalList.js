@@ -100,13 +100,13 @@ const HospitalList = () => {
                     By Status
                   </label>
                   <div className="col-12 d-flex justify-content-end img-ctrl-btn align-items-center mb-3">
-                    <a
-                      href="/admin/add_new_hospital_page"
+                    <Link
+                      to="/add-new-hospital"
                       className="btn plus add-more-btn "
                     >
                       <FaPlusCircle />
                       <span className="text-white"> ADD NEW </span>{" "}
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

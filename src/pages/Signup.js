@@ -27,6 +27,7 @@ const Signup = () => {
       });
       console.log(data);
       toast(data.error);
+      toast(data.response.data.error);
       toast(data.success);
       if (data.success) {
         window.location.replace("/login");

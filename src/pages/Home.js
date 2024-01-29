@@ -12,17 +12,6 @@ const Home = () => {
   const [allRequestedHospitals, setAllRequestedHospitals] = useState();
   const [allRegisteredHospitals, setAllRegisteredHospitals] = useState();
 
-  // console.log(allDoctors);
-  // console.log(allRequestedDoctors);
-  // console.log(allRegisteredDoctors);
-  // console.log(singleHospitals);
-  // console.log(allHospitals);
-  // console.log(allRequestedHospitals);
-  // console.log(allRegisteredHospitals);
-  // console.log(allHospitals?.data._id);
-  // console.log(users.user);
-
-
   useEffect(() => {
     // all doctors
     const getAllDoctors = async () => {
@@ -74,39 +63,71 @@ const Home = () => {
 
   return (
     <>
+      {users?.user.status === "pending" && (
+        <div className="add-new-report">
+          <div className="report-body">
+            <h2 className="profile-heading"> Request Pending </h2>
+          </div>
+        </div>
+      )}
+
       <div className="dashboard-result">
         {users
           ? users.user.role === "admin" && (
               <>
-              {/* Hospitals */}
+                {/* Hospitals */}
                 <div className={`dashboard-items`}>
                   <h4>Number of Registered Hospitals</h4>
-                  <p>{allRegisteredHospitals?.data.length}</p>
+                  <p>
+                    {allRegisteredHospitals?.data.length > 0
+                      ? allRegisteredHospitals?.data.length
+                      : "0"}
+                  </p>
                 </div>
                 {/* Hospitals */}
                 <div className={`dashboard-items`}>
                   <h4>Number of Requested Hospitals</h4>
-                  <p>{allRequestedHospitals?.data.length}</p>
+                  <p>
+                    {allRequestedHospitals?.data.length > 0
+                      ? allRequestedHospitals?.data.length
+                      : "0"}
+                  </p>
                 </div>
                 {/* Hospitals */}
                 <div className={`dashboard-items`}>
                   <h4>Number of Total Hospitals</h4>
-                  <p>{allHospitals?.data.length}</p>
+                  <p>
+                    {allHospitals?.data.length > 0
+                      ? allHospitals?.data.length
+                      : "0"}
+                  </p>
                 </div>
                 {/* Doctors */}
                 <div className={`dashboard-items`}>
                   <h4>Number of Registered Doctors</h4>
-                  <p>{allRegisteredDoctors?.data.length}</p>
+                  <p>
+                    {allRegisteredDoctors?.data.length > 0
+                      ? allRegisteredDoctors?.data.length
+                      : "0"}
+                  </p>
                 </div>
                 {/* Doctors */}
                 <div className={`dashboard-items`}>
                   <h4>Number of Requested Doctors</h4>
-                  <p>{allRequestedDoctors?.data.length}</p>
+                  <p>
+                    {allRequestedDoctors?.data.length > 0
+                      ? allRequestedDoctors?.data.length
+                      : "0"}
+                  </p>
                 </div>
                 {/* Doctors */}
                 <div className={`dashboard-items`}>
                   <h4>Number of Total Doctors</h4>
-                  <p>{allDoctors?.data.length}</p>
+                  <p>
+                    {allDoctors?.data.length > 0
+                      ? allDoctors?.data.length
+                      : "0"}
+                  </p>
                 </div>
               </>
             )
