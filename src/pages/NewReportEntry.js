@@ -16,26 +16,26 @@ const NewReportEntry = () => {
                     <div className="row">
                         <div className="col-sm-12 col-md-6 col-lg-6">
                             <div className="mb-1 mb-lg-3 row">
-                                <label for="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Date *</label>
+                                <label htmlFor="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Date *</label>
                                 <div className="col-sm-12 col-md-12 col-lg-12 position-relative">
                                     <input required name="created_at" type="date" className="form-control date" id="datepicker"
                                         value=""/>
                                 </div>
                             </div>
                             <div className="mb-1 mb-lg-3 row">
-                                <label for="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Rerport Title *</label>
+                                <label htmlFor="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Rerport Title *</label>
                                 <div className="col-sm-12 col-md-12 col-lg-12 position-relative">
                                     <input required name="report_title" type="text" className="form-control" id="h-name"/>
                                 </div>
                             </div>
                             <div className="mb-1 mb-lg-3 row">
-                                <label for="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Patient Name *</label>
+                                <label htmlFor="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Patient Name *</label>
                                 <div className="col-sm-12 col-md-12 col-lg-12">
                                     <input required name="patient_name" type="text" className="form-control" id="h-name"/>
                                 </div>
                             </div>
                             <div className="mb-1 mb-lg-3 row">
-                                <label for="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Gender *</label>
+                                <label htmlFor="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Gender *</label>
                                 <div className="col-sm-12 col-md-12 col-lg-12">
                                     <select required name="patient_gender" id="disabledSelect" className="form-select custom_input">
                                         <option value="">Select One</option>
@@ -45,7 +45,7 @@ const NewReportEntry = () => {
                                 </div>
                             </div>
                             <div className="mb-1 mb-lg-3 row">
-                                <label for="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Preferred Doctor *</label>
+                                <label htmlFor="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Preferred Doctor *</label>
                                 <div className="col-sm-12 col-md-12 col-lg-12">
                                     <select required name="preferred_doctor" id="disabledSelect" className="form-select custom_input">
                                         <option value="">Select One</option>
@@ -56,7 +56,7 @@ const NewReportEntry = () => {
                         </div>
                         <div className="col-sm-12 col-md-6 col-lg-6">
                             <div className="mb-1 mb-lg-3 row">
-                                <label for="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Department *</label>
+                                <label htmlFor="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Department *</label>
                                 <div className="col-sm-12 col-md-12 col-lg-12">
                                     <select required name="doctor_department" id="disabledSelect" className="form-select custom_input">
                                         <option value="">Select One</option>
@@ -67,7 +67,7 @@ const NewReportEntry = () => {
                                 </div>
                             </div>
                             <div className="mb-1 mb-lg-3 row">
-                                <label for="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Report Type *</label>
+                                <label htmlFor="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Report Type *</label>
                                 <div className="col-sm-12 col-md-12 col-lg-12">
                                     <select required name="report_type" id="disabledSelect" className="form-select custom_input">
                                         <option value="">Select One</option>
@@ -77,19 +77,19 @@ const NewReportEntry = () => {
                                 </div>
                             </div>
                             <div className="mb-1 mb-lg-3 row">
-                                <label for="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Rerport ID *</label>
+                                <label htmlFor="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Rerport ID *</label>
                                 <div className="col-sm-12 col-md-12 col-lg-12">
                                     <input required name="report_id" type="text" className="form-control" id="h-name"/>
                                 </div>
                             </div>
                             <div className="mb-1 mb-lg-3 row">
-                                <label for="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Age *</label>
+                                <label htmlFor="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Age *</label>
                                 <div className="col-sm-12 col-md-12 col-lg-12">
                                     <input required name="patient_age" type="number" className="form-control" id="h-name"/>
                                 </div>
                             </div>
                             <div className="mb-1 mb-lg-3 row">
-                                <label for="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Report Image *</label>
+                                <label htmlFor="h-name" className="col-sm-12 col-md-12 col-lg-12 col-form-label">Report Image *</label>
                                 <div className="col-sm-12 col-md-12 col-lg-12">
                                     <input required name="report_image" type="file" className="form-control" id="inputGroupFile04"
                                         aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>

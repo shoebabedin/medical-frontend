@@ -14,7 +14,7 @@ const NewReportPrepare = () => {
                 <div className="col-12 col-lg-6">
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-4 col-form-label"
                     >
                       Date *
@@ -31,7 +31,7 @@ const NewReportPrepare = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-4 col-form-label"
                     >
                       Prepearing By
@@ -48,7 +48,7 @@ const NewReportPrepare = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-4 col-form-label"
                     >
                       Rerport Title *
@@ -66,7 +66,7 @@ const NewReportPrepare = () => {
                 <div className="col-12 col-lg-6">
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-4 col-form-label"
                     >
                       Department *
@@ -85,7 +85,7 @@ const NewReportPrepare = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-4 col-form-label"
                     >
                       Report Type *
@@ -103,7 +103,7 @@ const NewReportPrepare = () => {
                     </div>
                   </div>
                   <div className="mb-1 mb-lg-5 row">
-                    <label for="h-name" className="col-sm-4 col-form-label">
+                    <label htmlFor="h-name" className="col-sm-4 col-form-label">
                       Rerport ID *
                     </label>
                     <div className="col-sm-8">
@@ -120,7 +120,7 @@ const NewReportPrepare = () => {
                 <div className="col-lg-6">
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-4 col-form-label"
                     >
                       Formate Name
@@ -141,7 +141,7 @@ const NewReportPrepare = () => {
                 <div className="col-12">
                   <div className="mb-3 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-2 col-col-form-label"
                     >
                       Report Details *

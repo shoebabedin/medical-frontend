@@ -39,6 +39,7 @@ const NewUserRequest = () => {
         console.error('Error while fetching pending requests:', error);
       }
     };
+
   
     getAllPendingRequest();
   }, [rejectRequest, approveRequest]); 
@@ -73,7 +74,7 @@ const NewUserRequest = () => {
             <div className="row">
               <div className="col-12 col-lg-4">
                 <div className="mb-1 mb-lg-5 row">
-                  <label for="h-name" className="col-sm-12 col-form-label">
+                  <label htmlFor="h-name" className="col-sm-12 col-form-label">
                     By Name
                   </label>
                   <div className="col-sm-12">
@@ -91,7 +92,7 @@ const NewUserRequest = () => {
 
               <div className="col-12 col-lg-4">
                 <div className="mb-1 mb-lg-5 row">
-                  <label for="by_date" className="col-sm-12 col-form-label">
+                  <label htmlFor="by_date" className="col-sm-12 col-form-label">
                     By Date
                   </label>
                   <div className="col-sm-12 position-relative">
@@ -109,7 +110,7 @@ const NewUserRequest = () => {
 
               <div className="col-12 col-lg-4">
                 <div className="mb-3 mb-lg-5 row">
-                  <label for="h-name" className="col-sm-12 col-form-label">
+                  <label htmlFor="h-name" className="col-sm-12 col-form-label">
                     By User Type
                   </label>
                   <div className="col-sm-12">

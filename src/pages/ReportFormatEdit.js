@@ -16,7 +16,7 @@ const ReportFormatEdit = () => {
                 <div className="col-12 col-lg-6">
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-4 col-form-label"
                     >
                       Date *
@@ -39,7 +39,7 @@ const ReportFormatEdit = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-4 col-form-label"
                     >
                       Prepeared By
@@ -59,7 +59,7 @@ const ReportFormatEdit = () => {
                 <div className="col-12 col-lg-6">
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-4 col-form-label"
                     >
                       Department *
@@ -77,7 +77,7 @@ const ReportFormatEdit = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-4 col-form-label"
                     >
                       Report Type *
@@ -98,7 +98,7 @@ const ReportFormatEdit = () => {
                 <div className="col-12 col-lg-12">
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-2 col-form-label"
                     >
                       Formate Name
@@ -116,7 +116,7 @@ const ReportFormatEdit = () => {
                 <div className="col-12">
                   <div className="mb-3 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-12 col-lg-2 col-col-form-label"
                     >
                       Report Details *

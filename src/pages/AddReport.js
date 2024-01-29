@@ -11,7 +11,7 @@ const AddReport = () => {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="mb-5 row">
-                            <label for="h-name" className="col-sm-4 col-form-label"
+                            <label htmlFor="h-name" className="col-sm-4 col-form-label"
                               >Date *</label
                             >
                             <div className="col-sm-8 position-relative">
@@ -24,7 +24,7 @@ const AddReport = () => {
                             </div>
                           </div>
                           <div className="mb-5 row">
-                            <label for="h-name" className="col-sm-4 col-form-label"
+                            <label htmlFor="h-name" className="col-sm-4 col-form-label"
                               >Rerport Title *</label
                             >
                             <div className="col-sm-8 position-relative">
@@ -36,7 +36,7 @@ const AddReport = () => {
                             </div>
                           </div>
                           <div className="mb-5 row">
-                            <label for="h-name" className="col-sm-4 col-form-label"
+                            <label htmlFor="h-name" className="col-sm-4 col-form-label"
                               >Patient Name *</label
                             >
                             <div className="col-sm-8">
@@ -48,7 +48,7 @@ const AddReport = () => {
                             </div>
                           </div>
                           <div className="mb-5 row">
-                            <label for="h-name" className="col-sm-4 col-form-label"
+                            <label htmlFor="h-name" className="col-sm-4 col-form-label"
                               >Gender *</label
                             >
                             <div className="col-sm-8">
@@ -63,7 +63,7 @@ const AddReport = () => {
                             </div>
                           </div>
                           <div className="mb-5 row">
-                            <label for="h-name" className="col-sm-4 col-form-label"
+                            <label htmlFor="h-name" className="col-sm-4 col-form-label"
                               >Preferred Doctor *</label
                             >
                             <div className="col-sm-8">
@@ -80,7 +80,7 @@ const AddReport = () => {
                         </div>
                         <div className="col-lg-6">
                           <div className="mb-5 row">
-                            <label for="h-name" className="col-sm-4 col-form-label"
+                            <label htmlFor="h-name" className="col-sm-4 col-form-label"
                               >Department *</label
                             >
                             <div className="col-sm-8">
@@ -95,7 +95,7 @@ const AddReport = () => {
                             </div>
                           </div>
                           <div className="mb-5 row">
-                            <label for="h-name" className="col-sm-4 col-form-label"
+                            <label htmlFor="h-name" className="col-sm-4 col-form-label"
                               >Report Type *</label
                             >
                             <div className="col-sm-8">
@@ -110,7 +110,7 @@ const AddReport = () => {
                             </div>
                           </div>
                           <div className="mb-5 row">
-                            <label for="h-name" className="col-sm-4 col-form-label"
+                            <label htmlFor="h-name" className="col-sm-4 col-form-label"
                               >Rerport ID *</label
                             >
                             <div className="col-sm-8">
@@ -122,7 +122,7 @@ const AddReport = () => {
                             </div>
                           </div>
                           <div className="mb-5 row">
-                            <label for="h-name" className="col-sm-4 col-form-label"
+                            <label htmlFor="h-name" className="col-sm-4 col-form-label"
                               >Age *</label
                             >
                             <div className="col-sm-8">
@@ -134,7 +134,7 @@ const AddReport = () => {
                             </div>
                           </div>
                           <div className="mb-5 row">
-                            <label for="h-name" className="col-sm-4 col-form-label"
+                            <label htmlFor="h-name" className="col-sm-4 col-form-label"
                               >Report Image *</label
                             >
                             <div className="col-sm-8">

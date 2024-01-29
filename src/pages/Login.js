@@ -2,7 +2,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link, Router, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LoginUser } from "../feature/users/authSlice";
 import { login } from "../validation";
@@ -52,7 +52,7 @@ const Login = () => {
 
           {/* <!-- Email Address --> */}
           <div>
-            <label htmlFor="email">Email</label>
+            <label htmlhtmlFor="email">Email</label>
             <input
               placeholder="Email"
               className="form-control custom_input"
@@ -70,7 +70,7 @@ const Login = () => {
 
           {/* <!-- Password --> */}
           <div className="mt-4">
-            <label htmlFor="password">Password</label>
+            <label htmlhtmlFor="password">Password</label>
             <input
               placeholder="Password"
               id="password"

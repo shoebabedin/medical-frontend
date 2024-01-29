@@ -20,7 +20,7 @@ const EditReport = () => {
                 <div className="col-sm-12 col-md-6 col-lg-6">
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-sm-12 col-md-12 col-lg-4 col-form-label"
                     >
                       Date *
@@ -44,7 +44,7 @@ const EditReport = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-sm-12 col-md-12 col-lg-4 col-form-label"
                     >
                       Rerport Title *
@@ -61,7 +61,7 @@ const EditReport = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-sm-12 col-md-12 col-lg-4 col-form-label"
                     >
                       Patient Name *
@@ -78,7 +78,7 @@ const EditReport = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-sm-12 col-md-12 col-lg-4 col-form-label"
                     >
                       Gender *
@@ -98,7 +98,7 @@ const EditReport = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="ccol-sm-12 col-md-12 col-lg-4 col-form-label"
                     >
                       Preferred Doctor *
@@ -120,7 +120,7 @@ const EditReport = () => {
                 <div className="col-sm-12 col-md-6 col-lg-6">
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-sm-12 col-md-12 col-lg-4 col-form-label"
                     >
                       Department *
@@ -139,7 +139,7 @@ const EditReport = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-sm-12 col-md-12 col-lg-4 col-form-label"
                     >
                       Report Type *
@@ -158,7 +158,7 @@ const EditReport = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-sm-12 col-md-12 col-lg-4 col-form-label"
                     >
                       Rerport ID *
@@ -175,7 +175,7 @@ const EditReport = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-sm-12 col-md-12 col-lg-4 col-form-label"
                     >
                       Age *
@@ -192,7 +192,7 @@ const EditReport = () => {
                   </div>
                   <div className="mb-1 mb-lg-5 row">
                     <label
-                      for="h-name"
+                      htmlFor="h-name"
                       className="col-sm-12 col-md-12 col-lg-4 col-form-label"
                     >
                       Report Image *

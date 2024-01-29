@@ -11,7 +11,7 @@ const SendReport = () => {
             <div className="row">
               <div className="col-lg-4">
                 <div className="mb-5 row">
-                  <label for="h-name" className="col-sm-12 col-form-label">
+                  <label htmlFor="h-name" className="col-sm-12 col-form-label">
                     Search Report
                   </label>
                   <div className="col-sm-12">
@@ -26,7 +26,7 @@ const SendReport = () => {
               </div>
               <div className="col-lg-4">
                 <div className="mb-5 row">
-                  <label for="h-name" className="col-sm-12 col-form-label">
+                  <label htmlFor="h-name" className="col-sm-12 col-form-label">
                     By Doctor
                   </label>
                   <div className="col-sm-12">
@@ -43,7 +43,7 @@ const SendReport = () => {
               </div>
               <div className="col-lg-4">
                 <div className="mb-5 row">
-                  <label for="h-name" className="col-sm-12 col-form-label">
+                  <label htmlFor="h-name" className="col-sm-12 col-form-label">
                     By Date
                   </label>
                   <div className="col-sm-12 position-relative">

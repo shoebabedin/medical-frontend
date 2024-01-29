@@ -56,7 +56,7 @@ const HospitalList = () => {
             <div className="row">
               <div className="col-12 col-lg-4">
                 <div className="mb-1 mb-md-2  mb-lg-5 row">
-                  <label for="h-name" className="col-sm-12 col-form-label">
+                  <label htmlFor="h-name" className="col-sm-12 col-form-label">
                     Search Report
                   </label>
                   <div className="col-sm-12">
@@ -73,7 +73,7 @@ const HospitalList = () => {
               </div>
               <div className="col-12 col-lg-4">
                 <div className="mb-3 mb-md-2 mb-lg-5 row">
-                  <label for="h-name" className="col-sm-12 col-form-label">
+                  <label htmlFor="h-name" className="col-sm-12 col-form-label">
                     By Status
                   </label>
                   <div className="col-sm-12">
@@ -94,7 +94,7 @@ const HospitalList = () => {
               <div className="col-12 col-lg-4">
                 <div className="mb-1 mb-md-2 mb-lg-5 row">
                   <label
-                    for="h-name"
+                    htmlFor="h-name"
                     className="col-12 col-form-label opacity-0"
                   >
                     By Status

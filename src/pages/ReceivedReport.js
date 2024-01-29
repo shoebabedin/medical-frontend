@@ -9,7 +9,7 @@ const ReceivedReport = () => {
         id="exampleModalToggle"
         aria-hidden="true"
         aria-labelledby="exampleModalToggleLabel"
-        tabindex="-1"
+        tabIndex="-1"
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
@@ -54,7 +54,7 @@ const ReceivedReport = () => {
             <div className="row">
               <div className="col-sm-12 col-md-12 col-lg-4">
                 <div className="mb-1 mb-lg-5 row">
-                  <label for="h-name" className="col-sm-12 col-form-label">
+                  <label htmlFor="h-name" className="col-sm-12 col-form-label">
                     Search Report
                   </label>
                   <div className="col-sm-12">
@@ -68,7 +68,7 @@ const ReceivedReport = () => {
               </div>
               <div className="col-sm-12 col-md-12 col-lg-4">
                 <div className="mb-1 mb-lg-5 row">
-                  <label for="h-name" className="col-sm-12 col-form-label">
+                  <label htmlFor="h-name" className="col-sm-12 col-form-label">
                     By Report Type
                   </label>
                   <div className="col-sm-12">
@@ -84,7 +84,7 @@ const ReceivedReport = () => {
               </div>
               <div className="col-sm-12 col-md-12 col-lg-4">
                 <div className="mb-3 mb-lg-5 row">
-                  <label for="by_date" className="col-sm-12 col-form-label">
+                  <label htmlFor="by_date" className="col-sm-12 col-form-label">
                     By Date
                   </label>
                   <div className="col-sm-12 position-relative">

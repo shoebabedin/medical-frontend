@@ -14,7 +14,7 @@ const ForgotPassword = () => {
           <form >
             {/* <!-- Email Address --> */}
             <div>
-              <label for="email" className="me-2">Email</label>
+              <label htmlFor="email" className="me-2">Email</label>
               <input
                 id="email"
                 className="block mt-1 w-full form-control"

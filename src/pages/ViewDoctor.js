@@ -1,17 +1,45 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useState } from "react";
-import { GrFormView, GrFormViewHide } from "react-icons/gr";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addDoctorValidation } from "../validation";
 
-const AddNewDoctor = () => {
+const ViewDoctor = () => {
   const apiKey = process.env.REACT_APP_API_KEY;
+  const live = process.env.REACT_APP_LOCAL;
+  const params = useParams();
+  const [allUser, setAllUser] = useState([]);
+  const [filterUser, setFilterUser] = useState();
   const [degrees, setDegrees] = useState([{ degree: "", specialized: "" }]);
-  const [view, setView] = useState(false);
   const addNewDegree = () => {
     setDegrees([...degrees, { degree: "", specialized: "" }]);
   };
+
+
+  useEffect(() => {
+    if (filterUser) {
+      setDegrees(filterUser.degrees || [{ degree: "", specialized: "" }]);
+    }
+  }, [filterUser]);
+
+  useEffect(() => {
+    const getAllData = async () => {
+      try {
+        const allData = await axios.get(`${apiKey}/user/all-doctors`);
+        setAllUser(allData.data);
+      } catch (error) {
+        console.error("Error while fetching pending requests:", error);
+      }
+    };
+
+    getAllData();
+  }, [apiKey]);
+
+  useEffect(() => {
+    const filterData = allUser.find((user) => user._id === params.id);
+    setFilterUser(filterData);
+  }, [params.id, allUser]);
 
   const handleDegreeChange = (index, fieldName, value) => {
     const updatedDegrees = [...degrees];
@@ -26,7 +54,6 @@ const AddNewDoctor = () => {
     const updatedDegrees = [...degrees];
     updatedDegrees.splice(index, 1);
     setDegrees(updatedDegrees);
-
     // Remove the degree from Formik's state
     formik.setFieldValue(
       "degrees",
@@ -34,25 +61,13 @@ const AddNewDoctor = () => {
     );
   };
 
-  const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-    h_name: "",
-    position: "",
-    bmdcRegNo: "",
-    profile_img: null,
-    doctor_sign: null,
-    degrees: [{ degree: "", specialized: "" }]
-  };
-
-  const addNewDoctor = async () => {
+  const EditDoctor = async () => {
+    console.log("Entering editDoctor function");
     const formData = new FormData();
 
+    formData.append("id", params.id);
     formData.append("name", formik.values.name);
     formData.append("email", formik.values.email);
-    formData.append("password", formik.values.password);
     formData.append("phone", formik.values.phone);
     formData.append("h_name", formik.values.h_name);
     formData.append("position", formik.values.position);
@@ -67,7 +82,7 @@ const AddNewDoctor = () => {
 
     try {
       let { data } = await axios.post(
-        `${apiKey}/user/new-doctors-add`,
+        `${apiKey}/user/doctor-update`,
         formData,
         {
           headers: {
@@ -75,7 +90,6 @@ const AddNewDoctor = () => {
           }
         }
       );
-      console.log(data);
       toast(data.error);
       toast(data.success);
       if (data.success) {
@@ -87,22 +101,47 @@ const AddNewDoctor = () => {
   };
 
   const formik = useFormik({
-    initialValues: initialValues,
+    enableReinitialize: true,
+    initialValues: {
+      name: filterUser?.name || "",
+      email: filterUser?.email || "",
+      phone: filterUser?.phone || "",
+      h_name: filterUser?.h_name || "",
+      position: filterUser?.position || "",
+      bmdcRegNo: filterUser?.bmdcRegNo || "",
+      profile_img: filterUser?.profile_img || "",
+      doctor_sign: filterUser?.doctor_sign || "",
+      degrees: filterUser?.degrees || [{ degree: "", specialized: "" }]
+    },
     validationSchema: addDoctorValidation,
     onSubmit: async () => {
       try {
-        await addNewDoctor();
+        await EditDoctor();
       } catch (error) {
-        console.error(error);
+        console.error("Error submitting form:", error);
       }
     }
   });
+
+
+  // For profile_img
+const onChangeProfileImage = (e) => {
+  formik.setFieldValue("profile_img", e.target.files[0]);
+  formik.setFieldError("profile_img", "");
+}
+
+// For doctor_sign
+const onChangeDoctorSign = (e) => {
+  formik.setFieldValue("doctor_sign", e.target.files[0]);
+  formik.setFieldError("doctor_sign", "");
+}
+
   return (
     <>
       <div className="add-new-report">
         <div className="report-body">
           <form onSubmit={formik.handleSubmit}>
-            <h2 className="profile-heading">Add New Doctor</h2>
+            <h2 className="profile-heading">View Doctor</h2>
             <div className="container">
               <div className="row">
                 <div className="col-sm-12 col-md-6 col-lg-6">
@@ -146,37 +185,9 @@ const AddNewDoctor = () => {
                         value={formik.values.email}
                         onChange={formik.handleChange}
                       />
+
                       {formik.touched.email && formik.errors.email ? (
                         <p>{formik.errors.email}</p>
-                      ) : null}
-                    </div>
-                  </div>
-                  <div className="mb-1 mb-lg-3 row">
-                    <label
-                      htmlFor="password"
-                      className="col-sm-12 col-md-12 col-lg-12 col-form-label"
-                    >
-                      Password *
-                    </label>
-                    <div className="col-sm-12 col-md-12 col-lg-12 position-relative">
-                      <input
-                        required
-                        name="password"
-                        type={view ? "text" : "password"}
-                        className="form-control"
-                        id="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                      />
-                      <button
-                        onClick={() => setView(!view)}
-                        className="position-absolute top-50 end-0 translate-middle border-0 bg-transparent "
-                        style={{ cursor: "pointer" }}
-                      >
-                        {view ? <GrFormView /> : <GrFormViewHide />}
-                      </button>
-                      {formik.touched.password && formik.errors.password ? (
-                        <p>{formik.errors.password}</p>
                       ) : null}
                     </div>
                   </div>
@@ -199,6 +210,44 @@ const AddNewDoctor = () => {
                       />
                       {formik.touched.phone && formik.errors.phone ? (
                         <p>{formik.errors.phone}</p>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="mb-1 mb-lg-3 row">
+                    <label
+                      htmlFor="profile_img"
+                      className="col-sm-12 col-md-12 col-lg-12 col-form-label"
+                    >
+                      Profile Image
+                    </label>
+                    <div className="col-sm-12 col-md-12 col-lg-12">
+                      {/* <input
+                        name="profile_img"
+                        type="file"
+                        className="form-control mb-4"
+                        id="profile_img"
+                        onChange={onChangeProfileImage}
+                      /> */}
+                      {formik.values.profile_img ? (
+                        <img
+                          className="img-fluid w-responsive"
+                          src={
+                            formik.values.profile_img instanceof File
+                              ? URL.createObjectURL(formik.values.profile_img)
+                              : `${live}/${formik.values.profile_img
+                                  .replace(/\\/g, "/")
+                                  .replace(/\.[^/.]+$/, "")}`
+                          }
+                          alt=""
+                          style={{ width: "100px", height: "100px" }}
+                        />
+                      ) : (
+                        <p>No Image found</p>
+                      )}
+
+                      {formik.touched.profile_img &&
+                      formik.errors.profile_img ? (
+                        <p>{formik.errors.profile_img}</p>
                       ) : null}
                     </div>
                   </div>
@@ -270,30 +319,7 @@ const AddNewDoctor = () => {
                       ) : null}
                     </div>
                   </div>
-                  <div className="mb-1 mb-lg-3 row">
-                    <label
-                      htmlFor="profile_img"
-                      className="col-sm-12 col-md-12 col-lg-12 col-form-label"
-                    >
-                      Profile Image
-                    </label>
-                    <div className="col-sm-12 col-md-12 col-lg-12">
-                      <input
-                        required
-                        name="profile_img"
-                        type="file"
-                        className="form-control"
-                        id="profile_img"
-                        onChange={(e) =>
-                          formik.setFieldValue("profile_img", e.target.files[0])
-                        }
-                      />
-                      {formik.touched.profile_img &&
-                      formik.errors.profile_img ? (
-                        <p>{formik.errors.profile_img}</p>
-                      ) : null}
-                    </div>
-                  </div>
+
                   <div className="mb-1 mb-lg-3 row">
                     <label
                       htmlFor="doctor_sign"
@@ -302,16 +328,29 @@ const AddNewDoctor = () => {
                       Dotor's Sign
                     </label>
                     <div className="col-sm-12 col-md-12 col-lg-12">
-                      <input
-                        required
+                      {/* <input
                         name="doctor_sign"
                         type="file"
-                        className="form-control"
+                        className="form-control mb-4"
                         id="doctor_sign"
-                        onChange={(e) =>
-                          formik.setFieldValue("doctor_sign", e.target.files[0])
-                        }
-                      />
+                        onChange={onChangeDoctorSign}
+                      /> */}
+                      {formik.values.doctor_sign ? (
+                        <img
+                          className="img-fluid w-responsive"
+                          src={
+                            formik.values.doctor_sign instanceof File
+                              ? URL.createObjectURL(formik.values.doctor_sign)
+                              : `${live}/${formik.values.doctor_sign
+                                  .replace(/\\/g, "/")
+                                  .replace(/\.[^/.]+$/, "")}`
+                          }
+                          alt=""
+                          style={{ width: "100px", height: "100px" }}
+                        />
+                      ) : (
+                        <p>No Image found</p>
+                      )}
                       {formik.touched.doctor_sign &&
                       formik.errors.doctor_sign ? (
                         <p>{formik.errors.doctor_sign}</p>
@@ -320,13 +359,13 @@ const AddNewDoctor = () => {
                   </div>
                 </div>
                 <div className="col-12 profile-btn">
-                  <span className="btn btn-warning mb-3" onClick={addNewDegree}>
+                  {/* <span className="btn btn-warning mb-3" onClick={addNewDegree}>
                     Add Degree
-                  </span>
+                  </span> */}
                   <div className="">
                     {degrees.map((degree, index) => (
                       <div key={index} className="row mb-3">
-                        <div className="col-12 col-lg-5">
+                        <div className="col-12 col-lg-6">
                           <div className="col-sm-12 col-md-12 col-lg-12">
                             <input
                               required
@@ -364,14 +403,14 @@ const AddNewDoctor = () => {
                             />
                           </div>
                         </div>
-                        <div className="col-12 col-lg-1">
+                        {/* <div className="col-12 col-lg-1">
                           <button
                             className="btn btn-danger"
                             onClick={() => removeDegree(index)}
                           >
                             Close
                           </button>
-                        </div>
+                        </div> */}
                       </div>
                     ))}
                   </div>
@@ -380,13 +419,17 @@ const AddNewDoctor = () => {
                   <div className="d-flex profile-btn">
                     <button
                       onClick={() => window.history.back()}
-                      className="btn cancel"
+                      className="btn update"
                     >
-                      Cancel
+                      Back
                     </button>
-                    <button type="submit" className="btn update">
+                    {/* <button
+                      type="submit"
+                      className="btn update"
+                      onClick={() => EditDoctor()}
+                    >
                       Send
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>
@@ -398,4 +441,4 @@ const AddNewDoctor = () => {
   );
 };
 
-export default AddNewDoctor;
+export default ViewDoctor;

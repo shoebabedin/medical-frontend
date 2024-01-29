@@ -56,7 +56,7 @@ const DoctorList = () => {
             <div className="row">
               <div className="col-lg-4">
                 <div className="mb-5 row">
-                  <label for="h-name" className="col-12 col-form-label">
+                  <label htmlFor="h-name" className="col-12 col-form-label">
                     By Name
                   </label>
                   <div className="col-12">
@@ -73,7 +73,7 @@ const DoctorList = () => {
               </div>
               <div className="col-lg-4">
                 <div className="mb-5 row">
-                  <label for="h-name" className="col-12 col-form-label">
+                  <label htmlFor="h-name" className="col-12 col-form-label">
                     By Status
                   </label>
                   <div className="col-12">
@@ -94,7 +94,7 @@ const DoctorList = () => {
               <div className="col-lg-4">
                 <div className="mb-5 row">
                   <label
-                    for="h-name"
+                    htmlFor="h-name"
                     className="col-12 col-form-label opacity-0"
                   >
                     By Status
@@ -176,7 +176,7 @@ const DoctorList = () => {
                       <Link to={`/edit-doctor/${data._id}`} className="flex-1">
                         <FaRegEdit />
                       </Link>
-                      <Link to={`/${data._id}`} className="flex-1">
+                      <Link to={`/view-doctor/${data._id}`} className="flex-1">
                         <GrView />
                       </Link>
                     </span>

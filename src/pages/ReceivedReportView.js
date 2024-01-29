@@ -97,7 +97,7 @@ const ReceivedReportView = () => {
                           <div className="col-sm-12 col-md-6 col-lg-6">
                             <div className="mb-1 mb-lg-3 row">
                               <label
-                                for="h-name"
+                                htmlFor="h-name"
                                 className="col-12 col-lg-4 col-form-label"
                               >
                                 Report Type
@@ -113,7 +113,7 @@ const ReceivedReportView = () => {
                           <div className="col-sm-12 col-md-6 col-lg-6">
                             <div className="mb-1 mb-lg-5 row">
                               <label
-                                for="h-name"
+                                htmlFor="h-name"
                                 className="col-12 col-lg-4  col-form-label"
                               >
                                 Report Title
@@ -129,7 +129,7 @@ const ReceivedReportView = () => {
                           <div className="col-12">
                             <div className="mb-1 mb-lg-3 row">
                               <label
-                                for="h-name"
+                                htmlFor="h-name"
                                 className="col-12 col-lg-4 col-form-label"
                               >
                                 Report Template
@@ -153,7 +153,7 @@ const ReceivedReportView = () => {
                           <div className="col-12">
                             <div className="mb-1 mb-lg-3 row">
                               <label
-                                for="h-name"
+                                htmlFor="h-name"
                                 className="col-12 col-lg-4  col-form-label"
                               >
                                 Template Name

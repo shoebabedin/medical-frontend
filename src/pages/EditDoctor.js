@@ -1,19 +1,27 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addDoctorValidation } from "../validation";
-import { useParams } from "react-router-dom";
 
 const EditDoctor = () => {
   const apiKey = process.env.REACT_APP_API_KEY;
+  const live = process.env.REACT_APP_LOCAL;
   const params = useParams();
   const [allUser, setAllUser] = useState([]);
-  const [filterUser, setFilterUser] = useState({});
+  const [filterUser, setFilterUser] = useState();
   const [degrees, setDegrees] = useState([{ degree: "", specialized: "" }]);
   const addNewDegree = () => {
     setDegrees([...degrees, { degree: "", specialized: "" }]);
   };
+
+
+  useEffect(() => {
+    if (filterUser) {
+      setDegrees(filterUser.degrees || [{ degree: "", specialized: "" }]);
+    }
+  }, [filterUser]);
 
   useEffect(() => {
     const getAllData = async () => {
@@ -26,12 +34,11 @@ const EditDoctor = () => {
     };
 
     getAllData();
-  }, []);
+  }, [apiKey]);
 
   useEffect(() => {
     const filterData = allUser.find((user) => user._id === params.id);
     setFilterUser(filterData);
-    console.log(filterData);
   }, [params.id, allUser]);
 
   const handleDegreeChange = (index, fieldName, value) => {
@@ -47,7 +54,6 @@ const EditDoctor = () => {
     const updatedDegrees = [...degrees];
     updatedDegrees.splice(index, 1);
     setDegrees(updatedDegrees);
-
     // Remove the degree from Formik's state
     formik.setFieldValue(
       "degrees",
@@ -55,22 +61,11 @@ const EditDoctor = () => {
     );
   };
 
-  const initialValues = {
-    name: filterUser?.name || "",
-    email: filterUser?.email || "",
-    phone: filterUser?.phone || "",
-    h_name: filterUser?.h_name || "",
-    position: filterUser?.position || "",
-    bmdcRegNo: filterUser?.bmdcRegNo || "",
-    profile_img: null, // Set the profile_img and doctor_sign to null, assuming these fields are for file uploads
-    doctor_sign: null,
-    degrees: filterUser?.degrees || [{ degree: "", specialized: "" }],
-  };
-  
-
-  const addNewDoctor = async () => {
+  const EditDoctor = async () => {
+    console.log("Entering editDoctor function");
     const formData = new FormData();
 
+    formData.append("id", params.id);
     formData.append("name", formik.values.name);
     formData.append("email", formik.values.email);
     formData.append("phone", formik.values.phone);
@@ -87,19 +82,18 @@ const EditDoctor = () => {
 
     try {
       let { data } = await axios.post(
-        `${apiKey}/user/new-doctors-add`,
+        `${apiKey}/user/doctor-update`,
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
-          },
+            "Content-Type": "multipart/form-data"
+          }
         }
       );
-      console.log(data);
       toast(data.error);
       toast(data.success);
       if (data.success) {
-        // window.location.replace("/login");
+        window.location.replace("/doctor-list");
       }
     } catch (error) {
       console.log(error);
@@ -107,6 +101,7 @@ const EditDoctor = () => {
   };
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       name: filterUser?.name || "",
       email: filterUser?.email || "",
@@ -114,32 +109,45 @@ const EditDoctor = () => {
       h_name: filterUser?.h_name || "",
       position: filterUser?.position || "",
       bmdcRegNo: filterUser?.bmdcRegNo || "",
-      profile_img: null,
-      doctor_sign: null,
-      degrees: filterUser?.degrees || [{ degree: "", specialized: "" }],
+      profile_img: filterUser?.profile_img || "",
+      doctor_sign: filterUser?.doctor_sign || "",
+      degrees: filterUser?.degrees || [{ degree: "", specialized: "" }]
     },
     validationSchema: addDoctorValidation,
     onSubmit: async () => {
       try {
-        await addNewDoctor(); // Wait for the registration function to complete
-        // Additional logic after successful registration if needed
+        await EditDoctor();
       } catch (error) {
-        console.error(error);
+        console.error("Error submitting form:", error);
       }
-    },
+    }
   });
+
+
+  // For profile_img
+const onChangeProfileImage = (e) => {
+  formik.setFieldValue("profile_img", e.target.files[0]);
+  formik.setFieldError("profile_img", "");
+}
+
+// For doctor_sign
+const onChangeDoctorSign = (e) => {
+  formik.setFieldValue("doctor_sign", e.target.files[0]);
+  formik.setFieldError("doctor_sign", "");
+}
+
   return (
     <>
       <div className="add-new-report">
         <div className="report-body">
           <form onSubmit={formik.handleSubmit}>
-            <h2 className="profile-heading">Add New Doctor</h2>
+            <h2 className="profile-heading">Edit Doctor</h2>
             <div className="container">
               <div className="row">
                 <div className="col-sm-12 col-md-6 col-lg-6">
                   <div className="mb-1 mb-lg-3 row">
                     <label
-                      for="u_name"
+                      htmlFor="u_name"
                       className="col-sm-12 col-md-12 col-lg-12 col-form-label"
                     >
                       User Name *
@@ -161,7 +169,7 @@ const EditDoctor = () => {
                   </div>
                   <div className="mb-1 mb-lg-3 row">
                     <label
-                      for="email"
+                      htmlFor="email"
                       className="col-sm-12 col-md-12 col-lg-12 col-form-label"
                     >
                       Email *
@@ -177,6 +185,7 @@ const EditDoctor = () => {
                         value={formik.values.email}
                         onChange={formik.handleChange}
                       />
+
                       {formik.touched.email && formik.errors.email ? (
                         <p>{formik.errors.email}</p>
                       ) : null}
@@ -184,7 +193,7 @@ const EditDoctor = () => {
                   </div>
                   <div className="mb-1 mb-lg-3 row">
                     <label
-                      for="phone"
+                      htmlFor="phone"
                       className="col-sm-12 col-md-12 col-lg-12 col-form-label"
                     >
                       Phone No
@@ -204,11 +213,49 @@ const EditDoctor = () => {
                       ) : null}
                     </div>
                   </div>
+                  <div className="mb-1 mb-lg-3 row">
+                    <label
+                      htmlFor="profile_img"
+                      className="col-sm-12 col-md-12 col-lg-12 col-form-label"
+                    >
+                      Profile Image
+                    </label>
+                    <div className="col-sm-12 col-md-12 col-lg-12">
+                      <input
+                        name="profile_img"
+                        type="file"
+                        className="form-control mb-4"
+                        id="profile_img"
+                        onChange={onChangeProfileImage}
+                      />
+                      {formik.values.profile_img ? (
+                        <img
+                          className="img-fluid w-responsive"
+                          src={
+                            formik.values.profile_img instanceof File
+                              ? URL.createObjectURL(formik.values.profile_img)
+                              : `${live}/${formik.values.profile_img
+                                  .replace(/\\/g, "/")
+                                  .replace(/\.[^/.]+$/, "")}`
+                          }
+                          alt=""
+                          style={{ width: "100px", height: "100px" }}
+                        />
+                      ) : (
+                        <p>No Image found</p>
+                      )}
+
+                      {formik.touched.profile_img &&
+                      formik.errors.profile_img ? (
+                        <p>{formik.errors.profile_img}</p>
+                      ) : null}
+                    </div>
+                  </div>
                 </div>
                 <div className="col-sm-12 col-md-6 col-lg-6">
                   <div className="mb-1 mb-lg-3 row">
                     <label
-                      for="h_name"
+                      htmlFor="h_name"
                       className="col-sm-12 col-md-12 col-lg-12 col-form-label"
                     >
                       Hospital *
@@ -230,7 +277,7 @@ const EditDoctor = () => {
                   </div>
                   <div className="mb-1 mb-lg-3 row">
                     <label
-                      for="position"
+                      htmlFor="position"
                       className="col-sm-12 col-md-12 col-lg-12 col-form-label"
                     >
                       Position *
@@ -252,7 +299,7 @@ const EditDoctor = () => {
                   </div>
                   <div className="mb-1 mb-lg-3 row">
                     <label
-                      for="regNo"
+                      htmlFor="regNo"
                       className="col-sm-12 col-md-12 col-lg-12 col-form-label"
                     >
                       BMDC Reg No *
@@ -272,48 +319,38 @@ const EditDoctor = () => {
                       ) : null}
                     </div>
                   </div>
+
                   <div className="mb-1 mb-lg-3 row">
                     <label
-                      for="profile_img"
-                      className="col-sm-12 col-md-12 col-lg-12 col-form-label"
-                    >
-                      Profile Image
-                    </label>
-                    <div className="col-sm-12 col-md-12 col-lg-12">
-                      <input
-                        required
-                        name="profile_img"
-                        type="file"
-                        className="form-control"
-                        id="profile_img"
-                        onChange={(e) =>
-                          formik.setFieldValue("profile_img", e.target.files[0])
-                        }
-                      />
-                      {formik.touched.profile_img &&
-                      formik.errors.profile_img ? (
-                        <p>{formik.errors.profile_img}</p>
-                      ) : null}
-                    </div>
-                  </div>
-                  <div className="mb-1 mb-lg-3 row">
-                    <label
-                      for="doctor_sign"
+                      htmlFor="doctor_sign"
                       className="col-sm-12 col-md-12 col-lg-12 col-form-label"
                     >
                       Dotor's Sign
                     </label>
                     <div className="col-sm-12 col-md-12 col-lg-12">
                       <input
-                        required
                         name="doctor_sign"
                         type="file"
-                        className="form-control"
+                        className="form-control mb-4"
                         id="doctor_sign"
-                        onChange={(e) =>
-                          formik.setFieldValue("doctor_sign", e.target.files[0])
-                        }
+                        onChange={onChangeDoctorSign}
                       />
+                      {formik.values.doctor_sign ? (
+                        <img
+                          className="img-fluid w-responsive"
+                          src={
+                            formik.values.doctor_sign instanceof File
+                              ? URL.createObjectURL(formik.values.doctor_sign)
+                              : `${live}/${formik.values.doctor_sign
+                                  .replace(/\\/g, "/")
+                                  .replace(/\.[^/.]+$/, "")}`
+                          }
+                          alt=""
+                          style={{ width: "100px", height: "100px" }}
+                        />
+                      ) : (
+                        <p>No Image found</p>
+                      )}
                       {formik.touched.doctor_sign &&
                       formik.errors.doctor_sign ? (
                         <p>{formik.errors.doctor_sign}</p>
@@ -386,7 +423,11 @@ const EditDoctor = () => {
                     >
                       Cancel
                     </button>
-                    <button type="submit" className="btn update">
+                    <button
+                      type="submit"
+                      className="btn update"
+                      onClick={() => EditDoctor()}
+                    >
                       Send
                     </button>
                   </div>
