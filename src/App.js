@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Layout from "./components/layout/Layout";
 import AddNewDoctor from "./pages/AddNewDoctor";
+import AddNewHospital from "./pages/AddNewHospital";
 import AddReport from "./pages/AddReport";
 import AllReport from "./pages/AllReport";
 import CompleteReport from "./pages/CompleteReport";
@@ -14,6 +15,7 @@ import CompleteReportView from "./pages/CompleteReportView";
 import DoctorList from "./pages/DoctorList";
 import EditAccess from "./pages/EditAccess";
 import EditDoctor from "./pages/EditDoctor";
+import EditHospital from "./pages/EditHospital";
 import EditReport from "./pages/EditReport";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
@@ -31,9 +33,10 @@ import ReportFormatView from "./pages/ReportFormatView";
 import SendReport from "./pages/SendReport";
 import Signup from "./pages/Signup";
 import ViewDoctor from "./pages/ViewDoctor";
-import AddNewHospital from "./pages/AddNewHospital";
+import ViewHospital from "./pages/ViewHospital";
 
 function App() {
+
   return (
     <>
       <BrowserRouter>
@@ -58,12 +61,14 @@ function App() {
             <Route path="report-format-edit" element={<ReportFormatEdit />} />
             <Route path="edit-access" element={<EditAccess />} />
             <Route path="received-report" element={<ReceivedReport />} />
-            <Route path="new-report-prepare" element={<NewReportPrepare />} />
             <Route path="new-report-entry" element={<NewReportEntry />} />
+            <Route path="new-report-prepare" element={<NewReportPrepare />} />
             <Route path="edit-doctor/:id" element={<EditDoctor />} />
             <Route path="view-doctor/:id" element={<ViewDoctor />} />
             <Route path="add-new-doctor" element={<AddNewDoctor />} />
             <Route path="add-new-hospital" element={<AddNewHospital />} />
+            <Route path="edit-hospital/:id" element={<EditHospital />} />
+            <Route path="view-hospital/:id" element={<ViewHospital />} />
             <Route path="*" element={<NoPage />} />
           </Route>
           <Route path="complete-report-edit" element={<CompleteReportEdit />} />

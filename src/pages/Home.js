@@ -11,8 +11,12 @@ const Home = () => {
   const [allHospitals, setAllHospitals] = useState();
   const [allRequestedHospitals, setAllRequestedHospitals] = useState();
   const [allRegisteredHospitals, setAllRegisteredHospitals] = useState();
+  const checkDoctorStatus = allDoctors?.data.find(item=> item._id === users?.user._id);
+  const checkHospitalStatus = allHospitals?.data.find(item=> item._id === users?.user._id);
 
+  
   useEffect(() => {
+
     // all doctors
     const getAllDoctors = async () => {
       const allDoctors = await axios.get(`${apiKey}/user/all-doctors`);
@@ -59,11 +63,19 @@ const Home = () => {
     getAllHospitals();
     getAllRequestedHospitals();
     getAllRegisteredHospitals();
+    // setCheckStatus(allDoctors.data.find(item=> item._id === users?.user._id));
   }, []);
-
+ 
   return (
     <>
-      {users?.user.status === "pending" && (
+      {checkDoctorStatus?.status === "pending" && (
+        <div className="add-new-report">
+          <div className="report-body">
+            <h2 className="profile-heading"> Request Pending </h2>
+          </div>
+        </div>
+      )}
+      {checkHospitalStatus?.status === "pending" && (
         <div className="add-new-report">
           <div className="report-body">
             <h2 className="profile-heading"> Request Pending </h2>

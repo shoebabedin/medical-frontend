@@ -1,30 +1,40 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useState } from "react";
-import { GrFormView, GrFormViewHide } from "react-icons/gr";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { addHospitalValidation } from "../validation";
 
-const AddNewHospital = () => {
+const EditHospital = () => {
   const apiKey = process.env.REACT_APP_API_KEY;
-  const [view, setView] = useState(false);
+  const live = process.env.REACT_APP_LOCAL;
+  const params = useParams();
+  const [allUser, setAllUser] = useState([]);
+  const [filterUser, setFilterUser] = useState();
 
-  const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-    address: "",
-    map_location: "",
-    hospital_img: null
-  };
+  useEffect(() => {
+    const getAllData = async () => {
+      try {
+        const allData = await axios.get(`${apiKey}/user/all-hospitals`);
+        setAllUser(allData.data);
+      } catch (error) {
+        console.error("Error while fetching pending requests:", error);
+      }
+    };
 
-  const addNewHospital = async () => {
+    getAllData();
+  }, [apiKey]);
+
+  useEffect(() => {
+    const filterData = allUser.find((user) => user._id === params.id);
+    setFilterUser(filterData);
+  }, [params.id, allUser]);
+
+  const EditHospital = async () => {
     const formData = new FormData();
 
+    formData.append("id", params.id);
     formData.append("name", formik.values.name);
     formData.append("email", formik.values.email);
-    formData.append("password", formik.values.password);
     formData.append("phone", formik.values.phone);
     formData.append("address", formik.values.address);
     formData.append("map_location", formik.values.map_location);
@@ -32,7 +42,7 @@ const AddNewHospital = () => {
 
     try {
       let { data } = await axios.post(
-        `${apiKey}/user/new-hospital-add`,
+        `${apiKey}/user/hospital-update`,
         formData,
         {
           headers: {
@@ -40,7 +50,6 @@ const AddNewHospital = () => {
           }
         }
       );
-      console.log(data);
       toast(data.error);
       toast(data.success);
       if (data.success) {
@@ -52,22 +61,38 @@ const AddNewHospital = () => {
   };
 
   const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: addHospitalValidation,
+    enableReinitialize: true,
+    initialValues: {
+      name: filterUser?.name || "",
+      email: filterUser?.email || "",
+      phone: filterUser?.phone || "",
+      address: filterUser?.address || "",
+      map_location: filterUser?.map_location || "",
+      hospital_img: filterUser?.profile_img || ""
+    },
     onSubmit: async () => {
       try {
-        await addNewHospital();
+        await EditHospital();
       } catch (error) {
-        console.error(error);
+        console.error("Error submitting form:", error);
       }
     }
   });
+
+  // For hospital_img
+  const onChangeHospitalImage = (e) => {
+    formik.setFieldValue("hospital_img", e.target.files[0]);
+    formik.setFieldError("hospital_img", "");
+  };
+
+
+
   return (
     <>
       <div className="add-new-report">
         <div className="report-body">
           <form onSubmit={formik.handleSubmit}>
-            <h2 className="profile-heading">Add New Hospital</h2>
+            <h2 className="profile-heading">Edit Hospital</h2>
             <div className="container">
               <div className="row">
                 <div className="col-sm-12 col-md-6 col-lg-6">
@@ -111,37 +136,9 @@ const AddNewHospital = () => {
                         value={formik.values.email}
                         onChange={formik.handleChange}
                       />
+
                       {formik.touched.email && formik.errors.email ? (
                         <p>{formik.errors.email}</p>
-                      ) : null}
-                    </div>
-                  </div>
-                  <div className="mb-1 mb-lg-3 row">
-                    <label
-                      htmlFor="password"
-                      className="col-sm-12 col-md-12 col-lg-12 col-form-label"
-                    >
-                      Password *
-                    </label>
-                    <div className="col-sm-12 col-md-12 col-lg-12 position-relative">
-                      <input
-                        required
-                        name="password"
-                        type={view ? "text" : "password"}
-                        className="form-control"
-                        id="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                      />
-                      <button
-                        onClick={() => setView(!view)}
-                        className="position-absolute top-50 end-0 translate-middle border-0 bg-transparent "
-                        style={{ cursor: "pointer" }}
-                      >
-                        {view ? <GrFormView /> : <GrFormViewHide />}
-                      </button>
-                      {formik.touched.password && formik.errors.password ? (
-                        <p>{formik.errors.password}</p>
                       ) : null}
                     </div>
                   </div>
@@ -214,27 +211,38 @@ const AddNewHospital = () => {
                       ) : null}
                     </div>
                   </div>
+
                   <div className="mb-1 mb-lg-3 row">
                     <label
                       htmlFor="profile_img"
                       className="col-sm-12 col-md-12 col-lg-12 col-form-label"
                     >
-                      Profile Image
+                       Profile Image
                     </label>
                     <div className="col-sm-12 col-md-12 col-lg-12">
                       <input
-                        required
                         name="profile_img"
                         type="file"
-                        className="form-control"
+                        className="form-control mb-4"
                         id="profile_img"
-                        onChange={(e) =>
-                          formik.setFieldValue(
-                            "hospital_img",
-                            e.target.files[0]
-                          )
-                        }
+                        onChange={onChangeHospitalImage}
                       />
+                      {formik.values.hospital_img ? (
+                        <img
+                          className="img-fluid w-responsive"
+                          src={
+                            formik.values.hospital_img instanceof File
+                              ? URL.createObjectURL(formik.values.hospital_img)
+                              : `${live}/${formik.values.hospital_img
+                                  .replace(/\\/g, "/")
+                                  .replace(/\.[^/.]+$/, "")}`
+                          }
+                          alt=""
+                          style={{ width: "100px", height: "100px" }}
+                        />
+                      ) : (
+                        <p>No Image found</p>
+                      )}
                       {formik.touched.hospital_img &&
                       formik.errors.hospital_img ? (
                         <p>{formik.errors.hospital_img}</p>
@@ -250,7 +258,10 @@ const AddNewHospital = () => {
                     >
                       Cancel
                     </button>
-                    <button type="submit" className="btn update">
+                    <button
+                      type="submit"
+                      className="btn update"
+                    >
                       Send
                     </button>
                   </div>
@@ -264,4 +275,4 @@ const AddNewHospital = () => {
   );
 };
 
-export default AddNewHospital;
+export default EditHospital;

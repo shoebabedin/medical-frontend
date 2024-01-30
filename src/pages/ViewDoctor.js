@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addDoctorValidation } from "../validation";
 
@@ -136,6 +136,10 @@ const onChangeDoctorSign = (e) => {
   formik.setFieldError("doctor_sign", "");
 }
 
+useEffect(() => {
+
+}, [])
+
   return (
     <>
       <div className="add-new-report">
@@ -154,7 +158,7 @@ const onChangeDoctorSign = (e) => {
                     </label>
                     <div className="col-sm-12 col-md-12 col-lg-12">
                       <input
-                        required
+                        disabled={true}
                         name="name"
                         type="text"
                         className="form-control"
@@ -176,7 +180,7 @@ const onChangeDoctorSign = (e) => {
                     </label>
                     <div className="col-sm-12 col-md-12 col-lg-12">
                       <input
-                        required
+                         disabled={true}
                         name="email"
                         type="email"
                         className="form-control"
@@ -200,7 +204,7 @@ const onChangeDoctorSign = (e) => {
                     </label>
                     <div className="col-sm-12 col-md-12 col-lg-12">
                       <input
-                        required
+                         disabled={true}
                         name="phone"
                         type="tel"
                         className="form-control"
@@ -221,13 +225,6 @@ const onChangeDoctorSign = (e) => {
                       Profile Image
                     </label>
                     <div className="col-sm-12 col-md-12 col-lg-12">
-                      {/* <input
-                        name="profile_img"
-                        type="file"
-                        className="form-control mb-4"
-                        id="profile_img"
-                        onChange={onChangeProfileImage}
-                      /> */}
                       {formik.values.profile_img ? (
                         <img
                           className="img-fluid w-responsive"
@@ -262,7 +259,7 @@ const onChangeDoctorSign = (e) => {
                     </label>
                     <div className="col-sm-12 col-md-12 col-lg-12">
                       <input
-                        required
+                         disabled={true}
                         name="h_name"
                         type="text"
                         className="form-control"
@@ -284,7 +281,7 @@ const onChangeDoctorSign = (e) => {
                     </label>
                     <div className="col-sm-12 col-md-12 col-lg-12">
                       <input
-                        required
+                         disabled={true}
                         name="position"
                         type="text"
                         className="form-control"
@@ -306,7 +303,7 @@ const onChangeDoctorSign = (e) => {
                     </label>
                     <div className="col-sm-12 col-md-12 col-lg-12">
                       <input
-                        required
+                         disabled={true}
                         name="bmdcRegNo"
                         type="text"
                         className="form-control"
@@ -328,13 +325,7 @@ const onChangeDoctorSign = (e) => {
                       Dotor's Sign
                     </label>
                     <div className="col-sm-12 col-md-12 col-lg-12">
-                      {/* <input
-                        name="doctor_sign"
-                        type="file"
-                        className="form-control mb-4"
-                        id="doctor_sign"
-                        onChange={onChangeDoctorSign}
-                      /> */}
+                      
                       {formik.values.doctor_sign ? (
                         <img
                           className="img-fluid w-responsive"
@@ -368,7 +359,7 @@ const onChangeDoctorSign = (e) => {
                         <div className="col-12 col-lg-6">
                           <div className="col-sm-12 col-md-12 col-lg-12">
                             <input
-                              required
+                               disabled={true}
                               name={`degree-${index}`}
                               type="text"
                               className="form-control"
@@ -387,7 +378,7 @@ const onChangeDoctorSign = (e) => {
                         <div className="col-12 col-lg-6">
                           <div className="col-sm-12 col-md-12 col-lg-12">
                             <input
-                              required
+                               disabled={true}
                               name={`specialized-${index}`}
                               type="text"
                               className="form-control"
@@ -403,14 +394,6 @@ const onChangeDoctorSign = (e) => {
                             />
                           </div>
                         </div>
-                        {/* <div className="col-12 col-lg-1">
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => removeDegree(index)}
-                          >
-                            Close
-                          </button>
-                        </div> */}
                       </div>
                     ))}
                   </div>
@@ -423,13 +406,12 @@ const onChangeDoctorSign = (e) => {
                     >
                       Back
                     </button>
-                    {/* <button
-                      type="submit"
-                      className="btn update"
-                      onClick={() => EditDoctor()}
+                    <Link
+                      to={`/edit-doctor/${params.id}`}
+                      className="btn btn-secondary"
                     >
-                      Send
-                    </button> */}
+                      Edit
+                    </Link>
                   </div>
                 </div>
               </div>

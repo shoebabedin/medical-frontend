@@ -136,6 +136,9 @@ const DoctorList = () => {
                   <span className="">Phone</span>
                 </th>
                 <th className="">
+                  <span className="">Hospital Name</span>
+                </th>
+                <th className="">
                   <span className="">Status</span>
                 </th>
                 <th className="">
@@ -162,6 +165,9 @@ const DoctorList = () => {
                     <span className="">
                       {data.phone ? data.phone : "Empty"}
                     </span>
+                  </td>
+                  <td className="">
+                    <span className="">{data.h_name}</span>
                   </td>
                   <td className="">
                     <span className="">{data.status}</span>

@@ -11,7 +11,7 @@ const HospitalList = () => {
   const [filters, setFilters] = useState({
     name: "",
     date: "",
-    userType: "all",
+    userType: "all"
   });
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const HospitalList = () => {
       !filters.date ||
       new Date(user.createdAt).toISOString().split("T")[0] === filters.date;
     const userTypeMatch =
-      filters.userType === "all" || user.role === filters.userType;
+      filters.userType === "all" || user.status === filters.userType;
 
     return nameMatch && dateMatch && userTypeMatch;
   });
@@ -43,7 +43,7 @@ const HospitalList = () => {
   const handleFilterChange = (filter, value) => {
     setFilters({
       ...filters,
-      [filter]: value,
+      [filter]: value
     });
   };
 
@@ -85,8 +85,8 @@ const HospitalList = () => {
                       }
                     >
                       <option value="all">Select One</option>
-                      <option value="active">Active</option>
-                      <option value="inactive">Inactive</option>
+                      <option value="pending">Pending</option>
+                      <option value="accepted">Accepted</option>
                     </select>
                   </div>
                 </div>
@@ -165,10 +165,10 @@ const HospitalList = () => {
                   </td>
                   <td className="">
                     <span className="d-flex gap-2">
-                      <Link to={`/${data._id}`} className="flex-1">
+                      <Link to={`/edit-hospital/${data._id}`} className="flex-1">
                         <FaRegEdit />
                       </Link>
-                      <Link to={`/${data._id}`} className="flex-1">
+                      <Link to={`/view-hospital/${data._id}`} className="flex-1">
                         <GrView />
                       </Link>
                     </span>
