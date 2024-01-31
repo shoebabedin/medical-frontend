@@ -1,7 +1,28 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const ReportFormat = () => {
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const [data, setData] = useState();
+  const deleteReport = (id) => {
+    try {
+     axios.post(`${apiKey}/user/reject-report`, { id: id });
+    } catch (error) {
+      console.error('Error while rejecting request:', error);
+      // Handle the error appropriately
+    }
+  };
+  useEffect(() => {
+    // all doctors
+    const getAllPendingReport = async () => {
+      const allPendingReport = await axios.get(`${apiKey}/user/all-report`);
+      setData(allPendingReport.data);
+    };
+
+    getAllPendingReport();
+  }, [deleteReport]);
+
   return (
     <>
       <div
@@ -134,10 +155,7 @@ const ReportFormat = () => {
             </Link>
           </div>
 
-          <table
-            id="example"
-            className="cell-border table-responsive w-100"
-          >
+          <table id="example" className="cell-border table-responsive w-100">
             <thead className="">
               <tr>
                 <th className="">
@@ -161,52 +179,49 @@ const ReportFormat = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td data-label="Formate ID">
-                  <span>formate_name </span>
-                </td>
-                <td data-label="Formate Name">
-                  <span>id</span>
-                </td>
-                <td data-label="Formate Type">
-                  <span>report_type</span>
-                </td>
-                <td data-label="Created By">
-                  <span>prepeared_by </span>
-                </td>
-                <td data-label="Creatd At">
-                  <span>Y-m-d</span>
-                </td>
-                <td>
-                  <Link to="/report-format-view">
-                    <img
-                      src={require("./../assets/images/eye.png")}
-                      className="img-fluid"
-                      alt=""
-                    />
-                  </Link>
-                  <Link to="/report-format-edit">
-                    <img
-                      src={require("./../assets/images/edit.png")}
-                      className="img-fluid"
-                      alt=""
-                    />
-                  </Link>
+              {data?.map((item) => (
+                <tr key={item._id}>
+                  <td>
+                    <span>{item._id}</span>
+                  </td>
+                  <td>
+                    <span>{item.report_title}</span>
+                  </td>
+                  <td>
+                    <span>{item.department}</span>
+                  </td>
+                  <td>
+                    <span>{item.preferred_doctor.name}</span>
+                  </td>
+                  <td>
+                    <span>{item.date}</span>
+                  </td>
+                  <td>
+                    <Link to="/report-format-view">
+                      <img
+                        src={require("./../assets/images/eye.png")}
+                        className="img-fluid"
+                        alt=""
+                      />
+                    </Link>
+                    <Link to={`/edit-report/${item._id}`}>
+                      <img
+                        src={require("./../assets/images/edit.png")}
+                        className="img-fluid"
+                        alt=""
+                      />
+                    </Link>
 
-                  <Link
-                    className="delete_btn"
-                    data-bs-toggle="modal"
-                    href="#exampleModalToggle"
-                    role="button"
-                  >
-                    <img
-                      src={require("./../assets/images/delete-button.png")}
-                      className="img-fluid"
-                      alt=""
-                    />
-                  </Link>
-                </td>
-              </tr>
+                    <button className="btn" onClick={()=> deleteReport(item._id)}>
+                      <img
+                        src={require("./../assets/images/delete-button.png")}
+                        className="img-fluid"
+                        alt=""
+                      />
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

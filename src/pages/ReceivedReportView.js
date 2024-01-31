@@ -1,7 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Editor } from "@tinymce/tinymce-react";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const ReceivedReportView = () => {
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const params = useParams();
+  const editorRef = useRef(null);
+  const [allUser, setAllUser] = useState([]);
+  const [filterUser, setFilterUser] = useState();
+
+  useEffect(() => {
+    // all doctors
+    const getAllPendingReport = async () => {
+      const allPendingReport = await axios.get(`${apiKey}/user/all-report`);
+      setAllUser(allPendingReport.data);
+    };
+
+    getAllPendingReport();
+  }, [apiKey]);
+
+  useEffect(() => {
+    const filterData = allUser.find((user) => user._id === params.id);
+    setFilterUser(filterData);
+  }, [params.id, allUser]);
+
+  console.log(filterUser);
   return (
     <>
       <div className="dashboard">
@@ -19,13 +43,14 @@ const ReceivedReportView = () => {
                       Dashboard
                     </Link>
                     <div className="" id="navbarSupportedContent">
-                      <Link
+                      <button
+                        onClick={() => window.history.back()}
                         to="#"
                         id="back"
                         className="btn download  mx-auto mb-lg-0"
                       >
                         Back
-                      </Link>
+                      </button>
                     </div>
                   </div>
                 </nav>
@@ -59,13 +84,17 @@ const ReceivedReportView = () => {
                                 <span className="title">Report ID</span>
                               </td>
                               <td colSpan={2} data-label="Report ID">
-                                <span className="name">report_id </span>
+                                <span className="name">
+                                  {filterUser?.report_id}{" "}
+                                </span>
                               </td>
                               <td className="desktop">
                                 <span className="title">Patient Name</span>
                               </td>
                               <td colSpan={2} data-label="Patient Name">
-                                <span className="name">patient_name </span>
+                                <span className="name">
+                                  {filterUser?.patient_name}{" "}
+                                </span>
                               </td>
                             </tr>
                             <tr>
@@ -73,19 +102,21 @@ const ReceivedReportView = () => {
                                 <span className="title">Report Date</span>
                               </td>
                               <td data-label="Report Date">
-                                <span className="name">d / m / y</span>
+                                <span className="name">{filterUser?.date}</span>
                               </td>
                               <td className="desktop">
                                 <span className="title">Age</span>
                               </td>
                               <td data-label="Age">
-                                <span className="name">patient_age </span>
+                                <span className="name">{filterUser?.age} </span>
                               </td>
                               <td className="desktop">
                                 <span className="title">Gender</span>
                               </td>
                               <td data-label="Gender">
-                                <span className="name">gender</span>
+                                <span className="name">
+                                  {filterUser?.gender}
+                                </span>
                               </td>
                             </tr>
                           </tbody>
@@ -106,6 +137,7 @@ const ReceivedReportView = () => {
                                 <input
                                   readonly
                                   className="custom_input form-control"
+                                  value={filterUser?.report_type}
                                 />
                               </div>
                             </div>
@@ -122,6 +154,7 @@ const ReceivedReportView = () => {
                                 <input
                                   readonly
                                   className="custom_input form-control"
+                                  value={filterUser?.report_title}
                                 />
                               </div>
                             </div>
@@ -176,9 +209,46 @@ const ReceivedReportView = () => {
                             </div>
                           </div>
                           <div className="default col-12 field">
-                            <textarea name="report_summary" id="default">
+                            {/* <textarea name="report_summary" id="default">
                               formate_details
-                            </textarea>
+                            </textarea> */}
+                            <Editor
+                    onInit={(evt, editor) => (editorRef.current = editor)}
+                    init={{
+                      selector: "textarea",
+                      placeholder: "Write here....",
+                      height: 300,
+                      menubar: false,
+                      plugins: [
+                        "advlist",
+                        "autolink",
+                        "lists",
+                        "link",
+                        "image",
+                        "charmap",
+                        "preview",
+                        "anchor",
+                        "searchreplace",
+                        "visualblocks",
+                        "code",
+                        "fullscreen",
+                        "insertdatetime",
+                        "media",
+                        "table",
+                        "code",
+                        "help",
+                        "wordcount"
+                      ],
+
+                      toolbar:
+                        "bold italic underline | alignleft aligncenter | ",
+                      table_toolbar:
+                        "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
+                      toolbar_mode: "wrap" | "scrolling",
+                      toolbar_sticky: true,
+                      toolbar_sticky_offset: 100
+                    }}
+                  />
                           </div>
                           <div className="col-12">
                             <div className="d-flex profile-btn">

@@ -11,12 +11,17 @@ const Home = () => {
   const [allHospitals, setAllHospitals] = useState();
   const [allRequestedHospitals, setAllRequestedHospitals] = useState();
   const [allRegisteredHospitals, setAllRegisteredHospitals] = useState();
-  const checkDoctorStatus = allDoctors?.data.find(item=> item._id === users?.user._id);
-  const checkHospitalStatus = allHospitals?.data.find(item=> item._id === users?.user._id);
+  const checkDoctorStatus = allDoctors?.data.find(
+    (item) => item._id === users?.user._id
+  );
+  const checkHospitalStatus = allHospitals?.data.find(
+    (item) => item._id === users?.user._id
+  );
+  const [totalReport, setTotalReport] = useState();
+  const [totalPendingReport, setTotalPendingReport] = useState();
+  const [totalCompleteReport, setTotalCompleteReport] = useState();
 
-  
   useEffect(() => {
-
     // all doctors
     const getAllDoctors = async () => {
       const allDoctors = await axios.get(`${apiKey}/user/all-doctors`);
@@ -55,6 +60,25 @@ const Home = () => {
       );
       setAllRegisteredHospitals(allHospitals);
     };
+    // all reports
+    const getAllReport = async () => {
+      const allReport = await axios.get(`${apiKey}/user/all-report`);
+      setTotalReport(allReport.data);
+    };
+    // all pending reports
+    const getAllPendingReport = async () => {
+      const allPendingReport = await axios.get(`${apiKey}/user/pending-report`);
+      setTotalPendingReport(allPendingReport.data);
+    };
+    // all conplete reports
+    const getAllCompleteReport = async () => {
+      const allCompleteReport = await axios.get(`${apiKey}/user/complete-report`);
+      setTotalCompleteReport(allCompleteReport.data);
+    };
+
+    getAllReport();
+    getAllPendingReport();
+    getAllCompleteReport();
     // doctors
     getAllDoctors();
     getAllRequestedDoctors();
@@ -65,7 +89,7 @@ const Home = () => {
     getAllRegisteredHospitals();
     // setCheckStatus(allDoctors.data.find(item=> item._id === users?.user._id));
   }, []);
- 
+
   return (
     <>
       {checkDoctorStatus?.status === "pending" && (
@@ -149,15 +173,15 @@ const Home = () => {
               <>
                 <div className={`dashboard-items`}>
                   <h4>Number of Sent Reports</h4>
-                  <p>115</p>
+                  <p>{totalPendingReport?.length > 0 ? totalPendingReport?.length : '0'}</p>
                 </div>
                 <div className={`dashboard-items`}>
                   <h4>Number of Completed Reports</h4>
-                  <p>100</p>
+                  <p>{totalCompleteReport?.length > 0 ? totalCompleteReport?.length : '0'}</p>
                 </div>
                 <div className={`dashboard-items `}>
                   <h4>Number of Total Reports</h4>
-                  <p>200</p>
+                  <p>{totalReport?.length > 0 ? totalReport?.length : '0'}</p>
                 </div>
               </>
             )

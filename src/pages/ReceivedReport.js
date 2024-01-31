@@ -1,7 +1,22 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const ReceivedReport = () => {
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    // all doctors
+    const getAllPendingReport = async () => {
+      const allPendingReport = await axios.get(`${apiKey}/user/all-report`);
+      setData(allPendingReport.data);
+    };
+
+    getAllPendingReport();
+  }, []);
+
+
   return (
     <>
       <div
@@ -106,6 +121,9 @@ const ReceivedReport = () => {
             <thead className="">
               <tr>
                 <th className="">
+                  <span className="">ID</span>
+                </th>
+                <th className="">
                   <span className="">Report ID</span>
                 </th>
                 <th className="">
@@ -123,21 +141,25 @@ const ReceivedReport = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td data-label="Report ID">
-                  <span>report_id </span>
-                </td>
-                <td data-label="Patient Name">
-                  <span>patient_name </span>
-                </td>
-                <td data-label="Report Type">
-                  <span>report_type </span>
-                </td>
-                <td data-label="Action">
-                  <span>Y-m-d</span>
-                </td>
-                <td>
-                  <Link to="/received-report-view">
+            {data?.map((item) => (
+                <tr key={item._id}>
+                  <td>
+                    <span>{item._id}</span>
+                  </td>
+                  <td>
+                    <span>{item.report_id}</span>
+                  </td>
+                  <td>
+                    <span>{item.patient_name}</span>
+                  </td>
+                  <td>
+                    <span>{item.department}</span>
+                  </td>
+                  <td>
+                    <span>{item.date}</span>
+                  </td>
+                  <td>
+                    <Link to={`/received-report-view/${item._id}`}>
                     <img src={require("./../assets/images/note.png")}
                       className="img-fluid" alt="" />
                   </Link>
@@ -146,8 +168,9 @@ const ReceivedReport = () => {
                     <img src={require("./../assets/images/eye.png")}
                       className="img-fluid"  alt="" />
                   </Link>
-                </td>
-              </tr>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

@@ -69,3 +69,16 @@ export const addHospitalValidation = Yup.object().shape({
     .required("Please enter a valid map location"),
   hospital_img: Yup.mixed().required("Please provide a profile image")
 });
+
+export const addReportValidation = Yup.object().shape({
+  date: Yup.string().required("Please enter a valid date"),
+  report_title:  Yup.string().min(3, "Please enter at least 3 characters").required("Please enter a valid report title"),
+  patient_name:  Yup.string().min(3, "Please enter at least 3 characters").required("Please enter a valid patient name"),
+  preferred_doctor:  Yup.string().min(3, "Please enter at least 3 characters").required("Please enter a valid preferred doctor"),
+  gender:  Yup.string().min(3,"Please enter at least 3 characters").required("please enter a valid gender"),
+  department:  Yup.string().min(3, "Please enter at least 3 characters").required("Please enter a valid department name"),
+  report_type:  Yup.string().min(3, "Please enter at least 3 characters").required("Please enter a valid report type"),
+  report_id:  Yup.string().min(3, "Please enter at least 3 characters").required("Please enter a valid report id"),
+  age:  Yup.string().min(2, "Please enter at least 3 character").required("please enter a valid age"),
+  report_image: Yup.string().nullable().required("please enter a valid report") 
+});

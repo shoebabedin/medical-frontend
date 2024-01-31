@@ -36,7 +36,6 @@ import ViewDoctor from "./pages/ViewDoctor";
 import ViewHospital from "./pages/ViewHospital";
 
 function App() {
-
   return (
     <>
       <BrowserRouter>
@@ -51,7 +50,7 @@ function App() {
               path="complete-report-view"
               element={<CompleteReportView />}
             />
-            <Route path="edit-report" element={<EditReport />} />
+            <Route path="edit-report/:id" element={<EditReport />} />
             <Route path="all-report" element={<AllReport />} />
             <Route path="doctor-list" element={<DoctorList />} />
             <Route path="hospital-list" element={<HospitalList />} />
@@ -71,8 +70,14 @@ function App() {
             <Route path="view-hospital/:id" element={<ViewHospital />} />
             <Route path="*" element={<NoPage />} />
           </Route>
-          <Route path="complete-report-edit" element={<CompleteReportEdit />} />
-          <Route path="received-report-view" element={<ReceivedReportView />} />
+            <Route
+              path="complete-report-edit"
+              element={<CompleteReportEdit />}
+            />
+            <Route
+              path="received-report-view/:id"
+              element={<ReceivedReportView />}
+            />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
