@@ -174,6 +174,9 @@ const ReportFormat = () => {
                   <span className="">Creatd At</span>
                 </th>
                 <th className="">
+                  <span className="">Status</span>
+                </th>
+                <th className="">
                   <span className="">Action</span>
                 </th>
               </tr>
@@ -195,6 +198,9 @@ const ReportFormat = () => {
                   </td>
                   <td>
                     <span>{item.date}</span>
+                  </td>
+                  <td>
+                    <span>{item.status}</span>
                   </td>
                   <td>
                     <Link to="/report-format-view">

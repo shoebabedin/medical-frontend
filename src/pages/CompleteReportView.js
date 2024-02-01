@@ -1,7 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const CompleteReportView = () => {
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const live = process.env.REACT_APP_LOCAL;
+  const params = useParams();
+  const [allUser, setAllUser] = useState([]);
+  const [filterUser, setFilterUser] = useState();
+
+  useEffect(() => {
+    // all doctors
+    const getAllPendingReport = async () => {
+      const allPendingReport = await axios.get(`${apiKey}/user/all-report`);
+      setAllUser(allPendingReport.data);
+    };
+
+    getAllPendingReport();
+  }, [apiKey]);
+
+  useEffect(() => {
+    const filterData = allUser.find((user) => user._id === params.id);
+    setFilterUser(filterData);
+  }, [params.id, allUser]);
+
+  console.log(filterUser);
   return (
     <>
       <div className="add-new-report admin doctor complete-report hospital-report">
@@ -65,9 +88,6 @@ const CompleteReportView = () => {
           <div className="report-body" id="printTable">
             <div className="print-hading">
               <h2 className="profile-heading">Department of department</h2>
-              <button className="print" id="ccc">
-                PRINT
-              </button>
             </div>
             <table id="printable" className="table table-bordered">
               <tbody>
@@ -76,13 +96,13 @@ const CompleteReportView = () => {
                     <span className="title">Report ID</span>
                   </td>
                   <td colspan="2" data-label="Report ID">
-                    <span className="name">report_id</span>
+                    <span className="name">{filterUser?.report_id}</span>
                   </td>
                   <td className="desktop">
                     <span className="title">Patient Name</span>
                   </td>
                   <td colspan="2" data-label="Patient Name">
-                    <span className="name">patient_name</span>
+                    <span className="name">{filterUser?.patient_name}</span>
                   </td>
                 </tr>
                 <tr>
@@ -90,28 +110,35 @@ const CompleteReportView = () => {
                     <span className="title">Report Date</span>
                   </td>
                   <td data-label="Report Date">
-                    <span className="name">d/M/y</span>
+                    <span className="name">{filterUser?.date}</span>
                   </td>
                   <td className="desktop">
                     <span className="title">Age</span>
                   </td>
                   <td data-label="Age">
-                    <span className="name">patient_age</span>
+                    <span className="name">{filterUser?.age}</span>
                   </td>
                   <td className="desktop">
                     <span className="title">Gender</span>
                   </td>
                   <td data-label="Gender">
-                    <span className="name text-capitalize">gender</span>
+                    <span className="name text-capitalize">
+                      {filterUser?.gender}
+                    </span>
                   </td>
                 </tr>
                 <tr>
                   <td colspan="6">
-                    <h5>report_title</h5>
+                    <h5>report_title: {filterUser?.report_title} </h5>
+
                     <p>
-                      <b>Bony thorax :</b> Reveals no abnortnality.
+                      <b>Report Type :</b> {filterUser?.report_type}
                     </p>
-                    report_summary
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: filterUser?.report_comment
+                      }}
+                    ></div>
                   </td>
                 </tr>
               </tbody>
@@ -120,54 +147,63 @@ const CompleteReportView = () => {
             <div className="signature_medical">
               <div className="signature">
                 <img
-                  src={require("./../assets/images/checked.png")}
+                  className="img-fluid w-responsive"
+                  src={`${live}/${filterUser?.preferred_doctor.profile_img
+                    .replace(/\\/g, "/")
+                    .replace(/\.[^/.]+$/, "")}`}
                   alt=""
-                  className="img-fluid"
+                  style={{ width: "100px", height: "100px" }}
                 />
-                {/* <img className="signature-image" src="{{ asset('uploads/doctor_seal') . '/' . $reportMakerData->seal }}"
-                                    alt="" /> */}
+
                 <p className="signature-report-by">
                   Reported by Electronic Signature
                 </p>
+
                 <img
-                  src={require("./../assets/images/checked.png")}
+                  className="img-fluid w-responsive"
+                  src={`${live}/${filterUser?.preferred_doctor.doctor_sign
+                    .replace(/\\/g, "/")
+                    .replace(/\.[^/.]+$/, "")}`}
                   alt=""
-                  className="img-fluid"
+                  style={{ width: "100px", height: "100px" }}
                 />
-                {/* <img
-                  className="signature-image"
-                  src="{{ asset('uploads/doctor_sign') . '/' . $reportMakerData->sign }}"
-                  alt=""
-                /> */}
                 <p>Reported by Electronic Signature</p>
 
                 <br />
-                <h4 className="signature-doctor">name </h4>
+                <h4 className="signature-doctor">
+                  name: {filterUser?.preferred_doctor.name}{" "}
+                </h4>
 
-                <h6 style={{ maxWidth: "400px", width: "100%" }}>
-                  <span className="signature-doctor-degree">
-                    {" "}
-                    degree <span>,</span>
-                  </span>
+                {filterUser?.preferred_doctor.degrees.map((item) => (
+                  <p key={item.id} style={{ maxWidth: "400px", width: "100%" }}>
+                    <span className="signature-doctor-degree">
+                      {" "}
+                      {item.degree} <span>,</span>
+                    </span>
 
-                  <span className="signature-doctor-specialist">
-                    {" "}
-                    speciality <span>,</span>
-                  </span>
-                </h6>
+                    <span className="signature-doctor-specialist">
+                      {" "}
+                      {item.specialized} <span>,</span>
+                    </span>
+                  </p>
+                ))}
               </div>
               <div className="medical">
                 <h4 className="signature-checked-by">
-                  Checked by Medical Technologist
+                  Checked by {filterUser?.preferred_doctor.h_name}
                 </h4>
               </div>
             </div>
           </div>
 
-          <h2 className="dont-find">You did not make this report yet !</h2>
-          <Link to="#" type="reset" className="btn dont-find-btn">
-            Back
-          </Link>
+          {filterUser?.length === 0 && (
+            <>
+              <h2 className="dont-find">You did not make this report yet !</h2>
+              <Link to="#" type="reset" className="btn dont-find-btn">
+                Back
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </>

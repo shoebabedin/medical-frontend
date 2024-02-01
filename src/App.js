@@ -47,7 +47,7 @@ function App() {
             <Route path="sent-report" element={<SendReport />} />
             <Route path="complete-report" element={<CompleteReport />} />
             <Route
-              path="complete-report-view"
+              path="complete-report-view/:id"
               element={<CompleteReportView />}
             />
             <Route path="edit-report/:id" element={<EditReport />} />

@@ -144,7 +144,7 @@ const CompleteReport = () => {
                         alt=""
                       />
                     </Link>
-                    <Link to="/complete-report-view">
+                    <Link to={`/complete-report-view/${item._id}`}>
                       <img
                         src={require("./../assets/images/eye.png")}
                         className="img-fluid"

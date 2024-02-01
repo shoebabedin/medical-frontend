@@ -1,7 +1,29 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const AllReport = () => {
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const [data, setData] = useState();
+  // const deleteReport = (id) => {
+  //   try {
+  //     axios.post(`${apiKey}/user/reject-report`, { id: id });
+  //   } catch (error) {
+  //     console.error("Error while rejecting request:", error);
+  //     // Handle the error appropriately
+  //   }
+  // };
+  useEffect(() => {
+    // all doctors
+    const getAllPendingReport = async () => {
+      const allPendingReport = await axios.get(
+        `${apiKey}/user/all-report`
+      );
+      setData(allPendingReport.data);
+    };
+
+    getAllPendingReport();
+  }, []);
   return (
     <>
       <div className="add-new-report">
@@ -59,6 +81,9 @@ const AllReport = () => {
           <table id="example" className="cell-border w-100">
             <thead className="">
               <tr>
+              <th className="">
+                  <span className="">ID</span>
+                </th>
                 <th className="">
                   <span className="">Report ID</span>
                 </th>
@@ -77,37 +102,46 @@ const AllReport = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <span>RID011</span>
-                </td>
-                <td>
-                  <span>Miss. Jahanara Begum</span>
-                </td>
-                <td>
-                  <span>Dept. of Radiology & Imaging</span>
-                </td>
-                <td>
-                  <span>Dr. Monjurul Alam</span>
-                </td>
-                <td>
-                  <Link to="/edit-report">
+            {data?.length == 0 && (
+                <tr>
+                  <td>No data found</td>
+                </tr>
+              )}
+              {data?.map((item) => (
+                <tr key={item._id}>
+                  <td>
+                    <span>{item._id}</span>
+                  </td>
+                  <td>
+                    <span>{item.report_id}</span>
+                  </td>
+                  <td>
+                    <span>{item.patient_name}</span>
+                  </td>
+                  <td>
+                    <span>{item.department}</span>
+                  </td>
+                  <td>
+                    <span>{item.preferred_doctor.name}</span>
+                  </td>
+                  <td>
+                    <Link to={`/edit-report/${item._id}`}>
                     <img
                       src={require("./../assets/images/printer.png")}
                       className="img-fluid"
                       alt=""
                     />
                   </Link>
-                  <Link to={'/'}>
+                  <Link to={`/complete-report-view/${item._id}`}>
                     <img
                       src={require("./../assets/images/eye.png")}
                       className="img-fluid"
                       alt=""
                     />
                   </Link>
-                </td>
-              </tr>
-            
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

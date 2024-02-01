@@ -1,14 +1,54 @@
-import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import { useFormik } from "formik";
+import React, { useEffect, useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { addReportValidation } from "../validation";
 
 const ReceivedReportView = () => {
   const apiKey = process.env.REACT_APP_API_KEY;
+  const live = process.env.REACT_APP_LOCAL;
   const params = useParams();
-  const editorRef = useRef(null);
   const [allUser, setAllUser] = useState([]);
   const [filterUser, setFilterUser] = useState();
+  const [editorHtml, setEditorHtml] = useState("");
+
+  const modules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["blockquote", "code-block"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
+      ["clean"] // remove formatting button
+    ]
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "color",
+    "background"
+  ];
 
   useEffect(() => {
     // all doctors
@@ -25,7 +65,61 @@ const ReceivedReportView = () => {
     setFilterUser(filterData);
   }, [params.id, allUser]);
 
-  console.log(filterUser);
+  const initialValues = {
+    date: filterUser?.date || null,
+    report_title: filterUser?.report_title || "",
+    patient_name: filterUser?.patient_name || "",
+    gender: filterUser?.gender || "",
+    preferred_doctor: filterUser?.preferred_doctor._id || "",
+    department: filterUser?.department || "",
+    report_type: filterUser?.report_type || "",
+    report_id: filterUser?.report_id || "",
+    age: filterUser?.age || "",
+    report_image: filterUser?.report_image || "null",
+    report_comment:
+      filterUser?.report_comment !== undefined ? filterUser?.report_comment : ""
+  };
+
+  const editHospitalReport = async () => {
+    const formData = new FormData();
+    formData.append("id", params.id);
+    Object.entries(formik.values).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    try {
+      let { data } = await axios.post(`${apiKey}/user/edit-report`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+      console.log(data);
+      toast(data.error);
+      toast(data.success);
+      if (data.success) {
+        window.location.replace("/received-report");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: initialValues,
+    validationSchema: addReportValidation,
+    onSubmit: async () => {
+      try {
+        await editHospitalReport();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  });
+  const handleChange = (html) => {
+    setEditorHtml(html);
+    formik.setFieldValue("report_comment", html);
+  };
   return (
     <>
       <div className="dashboard">
@@ -63,7 +157,20 @@ const ReceivedReportView = () => {
                   <div className="main-content">
                     <section>
                       <section className="idv-section">
-                        <div id="idv"></div>
+                        <div id="idv">
+                          <img
+                            className="img-fluid w-responsive"
+                            src={
+                              filterUser?.report_image instanceof File
+                                ? URL.createObjectURL(filterUser?.report_image)
+                                : `${live}/${filterUser?.report_image
+                                    .replace(/\\/g, "/")
+                                    .replace(/\.[^/.]+$/, "")}`
+                            }
+                            alt=""
+                            style={{ width: "100%", height: "100%" }}
+                          />
+                        </div>
                       </section>
                     </section>
                   </div>
@@ -121,7 +228,7 @@ const ReceivedReportView = () => {
                             </tr>
                           </tbody>
                         </table>
-                        <form action="#" className="row">
+                        <form onSubmit={formik.handleSubmit}>
                           <input type="hidden" name="report_id" />
                           <input type="hidden" name="report_type" />
                           <input type="hidden" name="department" />
@@ -135,7 +242,7 @@ const ReceivedReportView = () => {
                               </label>
                               <div className="col">
                                 <input
-                                  readonly
+                                  disabled
                                   className="custom_input form-control"
                                   value={filterUser?.report_type}
                                 />
@@ -152,52 +259,10 @@ const ReceivedReportView = () => {
                               </label>
                               <div className="col">
                                 <input
-                                  readonly
+                                  disabled
                                   className="custom_input form-control"
                                   value={filterUser?.report_title}
                                 />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-12">
-                            <div className="mb-1 mb-lg-3 row">
-                              <label
-                                htmlFor="h-name"
-                                className="col-12 col-lg-4 col-form-label"
-                              >
-                                Report Template
-                              </label>
-                              <div className="col-12">
-                                <select
-                                  onchange="updateEditor(this.value)"
-                                  className="custom_input form-control reportSelect"
-                                  name="formate_name"
-                                >
-                                  <optgroup label="In built Formates">
-                                    <option>formate_name</option>
-                                  </optgroup>
-                                  <optgroup label="Personal Formates">
-                                    <option>formate_name</option>
-                                  </optgroup>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-12">
-                            <div className="mb-1 mb-lg-3 row">
-                              <label
-                                htmlFor="h-name"
-                                className="col-12 col-lg-4  col-form-label"
-                              >
-                                Template Name
-                              </label>
-                              <div className="col">
-                                <input
-                                  name="new_formate_name"
-                                  placeholder="Fill this if you want to save report as a formate"
-                                  className="new_formate_name form-control"
-                                />
-                                <p className="text-danger"></p>
                               </div>
                             </div>
                           </div>
@@ -209,46 +274,14 @@ const ReceivedReportView = () => {
                             </div>
                           </div>
                           <div className="default col-12 field">
-                            {/* <textarea name="report_summary" id="default">
-                              formate_details
-                            </textarea> */}
-                            <Editor
-                    onInit={(evt, editor) => (editorRef.current = editor)}
-                    init={{
-                      selector: "textarea",
-                      placeholder: "Write here....",
-                      height: 300,
-                      menubar: false,
-                      plugins: [
-                        "advlist",
-                        "autolink",
-                        "lists",
-                        "link",
-                        "image",
-                        "charmap",
-                        "preview",
-                        "anchor",
-                        "searchreplace",
-                        "visualblocks",
-                        "code",
-                        "fullscreen",
-                        "insertdatetime",
-                        "media",
-                        "table",
-                        "code",
-                        "help",
-                        "wordcount"
-                      ],
-
-                      toolbar:
-                        "bold italic underline | alignleft aligncenter | ",
-                      table_toolbar:
-                        "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
-                      toolbar_mode: "wrap" | "scrolling",
-                      toolbar_sticky: true,
-                      toolbar_sticky_offset: 100
-                    }}
-                  />
+                            <ReactQuill
+                              theme="snow"
+                              name="report_comment"
+                              modules={modules}
+                              formats={formats}
+                              value={formik.values.report_comment}
+                              onChange={handleChange}
+                            />
                           </div>
                           <div className="col-12">
                             <div className="d-flex profile-btn">
@@ -258,20 +291,7 @@ const ReceivedReportView = () => {
                               >
                                 Cancel
                               </Link>
-                              <button
-                                name="action"
-                                value="saveAndSend"
-                                type="submit"
-                                className="btn update save_and_send"
-                              >
-                                Save & Send
-                              </button>
-                              <button
-                                name="action"
-                                value="send"
-                                type="submit"
-                                className="btn update send"
-                              >
+                              <button type="submit" className="btn update send">
                                 Send
                               </button>
                             </div>
